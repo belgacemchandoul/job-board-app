@@ -1,4 +1,4 @@
-import { Job } from "@/types/job";
+import { Job } from "@/types/Job";
 import axios from "axios";
 
 const JobsList = async () => {

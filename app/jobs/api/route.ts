@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ message: "Method Not Allowed" }), { status: 403 });
+    return new Response(JSON.stringify({ message: "Method Not Allowed" }), { status: 405 });
   }
 
   try {
@@ -36,5 +36,45 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify(jobData), { status: 200, headers: { "Content-Type": "application/json" } });
   } catch (error) {
     return new Response(JSON.stringify({ message: "Not able to create this job" }), { status: 500 });
+  }
+}
+
+export async function PATCH(req: NextRequest) {
+
+  if (req.method !== "PATCH") {
+    return new Response(JSON.stringify({ message: "Method Noth Allowed" }), { status: 405 })
+  }
+  try {
+    const data = await req.json()
+    const { id, ...updateData } = data
+    if (!id) {
+      return new Response(JSON.stringify({ message: "Missing Job ID" }), { status: 400 })
+    }
+    const updateJob = await prisma.job.update({
+      where: { id: id },
+      data: updateData
+    })
+    return new Response(JSON.stringify(updateJob), { status: 200, headers: { "Content-Type": "application/json" } })
+  } catch (error) {
+    return new Response(JSON.stringify({ message: "Not able to update this job" }), { status: 500 })
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  if (req.method !== "DELETE") {
+    return new Response(JSON.stringify({ message: "Method Not Allowed" }), { status: 405 })
+  }
+  try {
+    const data = await req.json()
+    const { id } = data
+    if (!id) {
+      return new Response(JSON.stringify({ message: "Missing Job ID" }), { status: 400 })
+    }
+    await prisma.job.delete({
+      where: { id: id }
+    })
+    return new Response(JSON.stringify({ message: "Job deleted successfully" }), { status: 200 })
+  } catch (error) {
+    return new Response(JSON.stringify({ message: "Not able to delete this job" }), { status: 500 })
   }
 }
