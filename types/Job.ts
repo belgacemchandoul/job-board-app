@@ -4,7 +4,7 @@ export type Job = {
   description: string,
   status: boolean,
   missions: {
-    mission: string
+    mission: string,
   }[],
   skills: {
     skill: string

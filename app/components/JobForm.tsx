@@ -8,7 +8,7 @@ import {
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { DevTool } from "@hookform/devtools";
+
 import { Job } from "@/types/Job";
 import { useEffect } from "react";
 
@@ -169,7 +169,6 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
           Reset
         </button>
       </form>
-      <DevTool control={control} />
     </div>
   );
 };
