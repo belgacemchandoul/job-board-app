@@ -50,7 +50,7 @@ model Job {
   description String
   missions    Json[]
   status      Boolean?
-  profiles    Json[]
+  skills    Json[]
 }
 
 model User {

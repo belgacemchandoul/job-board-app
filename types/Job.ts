@@ -4,9 +4,9 @@ export type Job = {
   description: string,
   status: boolean,
   missions: {
-    aa: string
+    mission: string
   }[],
-  profiles: {
-    aa: string
+  skills: {
+    skill: string
   }[]
 }

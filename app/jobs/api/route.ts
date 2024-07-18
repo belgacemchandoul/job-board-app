@@ -21,9 +21,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await req.json();
-    const { title, description, status, missions, profiles } = data;
+    const { title, description, status, missions, skills } = data;
 
-    if (!title || !description || status === undefined || !missions || !profiles) {
+    if (!title || !description || status === undefined || !missions || !skills) {
       return new Response(JSON.stringify({ message: "Missing required fields" }), { status: 400 });
     }
 

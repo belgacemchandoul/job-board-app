@@ -4,25 +4,13 @@ import {
   Controller,
   SubmitHandler,
   useFieldArray,
+  FieldErrors,
 } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { DevTool } from "@hookform/devtools";
-
-type FormValues = {
-  title: string;
-  description: string;
-  status: boolean;
-  missions: {
-    test: string;
-  }[];
-  profiles: {
-    test: string;
-  }[];
-  missionsTest: {
-    test: string;
-  }[];
-};
+import { Job } from "@/types/Job";
+import { useEffect } from "react";
 
 const schema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -32,56 +20,69 @@ const schema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        test: yup.string().required("Mission test is required"),
+        mission: yup.string().required("Mission is required"),
       })
     )
     .required(),
-  profiles: yup
+  skills: yup
     .array()
     .of(
       yup.object().shape({
-        test: yup.string().required("Profile test is required"),
-      })
-    )
-    .required(),
-  missionsTest: yup
-    .array()
-    .of(
-      yup.object().shape({
-        test: yup.string().required("Profile test is required"),
+        skill: yup.string().required("Skill is required"),
       })
     )
     .required(),
 });
 
 interface JobFormProps {
-  onSubmit: SubmitHandler<FormValues>;
-  defaultValues?: FormValues;
+  onSubmit: SubmitHandler<Job>;
+  defaultValues?: Job;
 }
 const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
   const {
     control,
     handleSubmit,
     register,
-    formState: { errors },
-  } = useForm<FormValues>({
+    formState: { errors, isDirty, isValid, isSubmitting },
+    reset,
+  } = useForm<Job>({
     resolver: yupResolver(schema),
     defaultValues: defaultValues || {
       title: "",
       description: "",
       status: false,
-      missions: [{ test: "" }],
-      profiles: [{ test: "" }],
-      missionsTest: [{ test: "" }],
+      missions: [{ mission: "" }],
+      skills: [{ skill: "" }],
     },
   });
-  const { fields, append, remove } = useFieldArray({
-    name: "missionsTest",
+  const {
+    fields: missionFields,
+    append: appendMission,
+    remove: removeMission,
+  } = useFieldArray({
+    name: "missions",
     control,
   });
+
+  const {
+    fields: skillFields,
+    append: appendSkill,
+    remove: removeSkill,
+  } = useFieldArray({
+    name: "skills",
+    control,
+  });
+  const onError = (errors: FieldErrors<Job>) => {
+    console.log("Form errors:", errors);
+  };
+  useEffect(() => {
+    if (isSubmitting) {
+      console.log("Form is submitting...");
+    }
+  }, [isSubmitting]);
   return (
-    <div className="flex gap-3">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="">
+      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <div>
           <label>Title</label>
           <Controller
@@ -97,7 +98,7 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
           <Controller
             name="description"
             control={control}
-            render={({ field }) => <input {...field} />}
+            render={({ field }) => <textarea {...field} />}
           />
           {errors.description && <span>{errors.description.message}</span>}
         </div>
@@ -120,47 +121,53 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
 
         <div>
           <label>Missions</label>
-          <Controller
-            name="missions.0.test"
-            control={control}
-            render={({ field }) => <input {...field} />}
-          />
-          {errors.missions && errors.missions[0] && errors.missions[0].test && (
-            <span>{errors.missions[0].test.message}</span>
-          )}
+          {missionFields.map((field, index) => {
+            return (
+              <div key={field.id}>
+                <input
+                  type="text"
+                  {...register(`missions.${index}.mission` as const)}
+                />
+                {index > 0 && (
+                  <button onClick={() => removeMission(index)}>delete</button>
+                )}
+              </div>
+            );
+          })}
+          <div onClick={() => appendMission({ mission: "" })}>Add</div>
+          {errors.missions &&
+            errors.missions[0] &&
+            errors.missions[0].mission && (
+              <span>{errors.missions[0].mission.message}</span>
+            )}
         </div>
 
         <div>
-          <label>Profiles</label>
-          <Controller
-            name="profiles.0.test"
-            control={control}
-            render={({ field }) => <input {...field} />}
-          />
-          {errors.profiles && errors.profiles[0] && errors.profiles[0].test && (
-            <span>{errors.profiles[0].test.message}</span>
+          <label>Skills</label>
+          {skillFields.map((field, index) => {
+            return (
+              <div key={field.id}>
+                <input
+                  type="text"
+                  {...register(`skills.${index}.skill` as const)}
+                />
+                {index > 0 && (
+                  <button onClick={() => removeSkill(index)}>delete</button>
+                )}
+              </div>
+            );
+          })}
+          <button onClick={() => appendSkill({ skill: "" })}>Add</button>
+          {errors.skills && errors.skills[0] && errors.skills[0].skill && (
+            <span>{errors.skills[0].skill.message}</span>
           )}
         </div>
-        <div>
-          <label>test</label>
-          <div>
-            {fields.map((field, index) => {
-              return (
-                <div key={field.id}>
-                  <input
-                    type="text"
-                    {...register(`missionsTest.${index}.test` as const)}
-                  />
-                  {index > 0 && (
-                    <button onClick={() => remove(index)}>remove</button>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          <button onClick={() => append({ test: "" })}>add</button>
-        </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
+          Submit
+        </button>
+        <button type="button" onClick={() => reset()}>
+          Reset
+        </button>
       </form>
       <DevTool control={control} />
     </div>
