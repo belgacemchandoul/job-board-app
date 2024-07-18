@@ -27,7 +27,10 @@ interface JobFormProps {
   defaultValues?: userEducationFormType;
 }
 
-const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
+const UserEducationForm: React.FC<JobFormProps> = ({
+  onSubmit,
+  defaultValues,
+}) => {
   const {
     control,
     handleSubmit,
@@ -128,4 +131,4 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
   );
 };
 
-export default UserInfosForm;
+export default UserEducationForm;
