@@ -62,7 +62,7 @@ model User {
   birthdate     String?
   accounts      Account[]
   sessions      Session[]
-  study         Json[]
+  education         Json[]
   work          Json[]
   skills        Json[]
   languages     Json[]

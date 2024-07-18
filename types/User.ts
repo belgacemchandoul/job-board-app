@@ -2,10 +2,10 @@ export type User = {
   name: string;
   email: string;
   birthdate: string;
-  appliedJobs?: {
-    title: string;
-    status?: boolean;
-  };
+  // appliedJobs?: {
+  //   title: string;
+  //   status?: boolean;
+  // };
   education: {
     name: string;
     startDate: string;
