@@ -6,7 +6,12 @@ import { useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
 
-export type userLanguagesFormType = Pick<User, "languages">;
+export type userLanguagesFormType = {
+  languages: {
+    name: string;
+    level: "Beginner" | "Intermediate" | "Advanced";
+  }[];
+};
 
 const schema = yup.object().shape({
   languages: yup
@@ -14,7 +19,10 @@ const schema = yup.object().shape({
     .of(
       yup.object().shape({
         name: yup.string().required("Skill is required"),
-        level: yup.string().required("Level is required"),
+        level: yup
+          .string()
+          .oneOf(["Beginner", "Intermediate", "Advanced"], "Level is required")
+          .required("Level is required"),
       })
     )
     .required(),
@@ -41,7 +49,7 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
       languages: [
         {
           name: "",
-          level: "",
+          level: "Beginner",
         },
       ],
     },
@@ -72,10 +80,12 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
             </div>
             <div>
               <label>Level</label>
-              <input
-                type="text"
-                {...register(`languages.${index}.level` as const)}
-              />
+              <select {...register(`languages.${index}.level` as const)}>
+                <option value="">Select Level</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
               {errors.languages?.[index]?.level && (
                 <span>{errors.languages[index]?.level?.message}</span>
               )}
@@ -87,7 +97,10 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
             )}
           </div>
         ))}
-        <button type="button" onClick={() => append({ name: "", level: "" })}>
+        <button
+          type="button"
+          onClick={() => append({ name: "", level: "Beginner" })}
+        >
           Add Language
         </button>
       </div>

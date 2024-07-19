@@ -1,12 +1,7 @@
 "use client";
-import { signIn } from "next-auth/react";
-import JobForm from "./components/JobForm";
+
+import Header from "./components/Header";
 
 export default function Home() {
-  return (
-    <div className="text-center">
-      MARHBA YA HANNAN
-      {/* <JobForm onSubmit={() => {}} /> */}
-    </div>
-  );
+  return <div className="text-center"></div>;
 }

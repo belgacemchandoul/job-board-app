@@ -1,6 +1,6 @@
 "use client";
 import { SubmitHandler } from "react-hook-form";
-import JobForm from "../components/JobForm";
+import JobForm from "../components/forms/JobForm";
 import axios from "axios";
 import { Job } from "@/types/Job";
 
