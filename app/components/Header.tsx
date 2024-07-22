@@ -2,13 +2,13 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../lib/nextAuth";
-
-const User = dynamic(() => import("./User"), { ssr: false });
+import Login from "./Login";
+import Logout from "./Logout";
 
 const Header = async () => {
   const session: Session | null = await getServerSession(authOptions);
   return (
-    <header className="flex justify-between items-center p-4">
+    <header className="flex justify-between items-center py-4 select-none z-50 absolute w-full ">
       <nav className="flex items-center gap-44">
         <Link href="/" className="font-bold text-2xl">
           HireHaven
@@ -20,12 +20,9 @@ const Header = async () => {
           <li>
             <Link href="/jobs">Jobs</Link>
           </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
         </ul>
       </nav>
-      {<User user={session?.user} />}
+      {session ? <Logout user={session.user} /> : <Login />}
     </header>
   );
 };

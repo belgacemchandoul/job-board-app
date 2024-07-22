@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import SessionWrapper from "./components/SessionWrapper";
 
-const inter = Inter({ subsets: ["latin"] });
+const noto = Noto_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +19,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <SessionWrapper>
-        <body className={inter.className}>
-          <Header />
-          {children}
+        <body className={`${noto.className} min-h-screen`}>
+          <div className="mx-28 relative">
+            <Header />
+            {children}
+          </div>
         </body>
       </SessionWrapper>
     </html>
