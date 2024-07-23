@@ -6,7 +6,7 @@ import LatestJobsSection from "./components/LatestJobsSection";
 export default function Home() {
   return (
     <main className="">
-      <section className=" relative flex flex-col items-center min-h-screen w-full justify-evenly z-0 bg-gradient-to-r from-teal-700 to-[#20B2AA] rounded-lg">
+      <section className=" relative flex flex-col items-center min-h-screen w-full justify-evenly z-0 bg-gradient-to-r from-teal-700 to-[#20B2AA] ">
         <div className="absolute top-1 left-1 w-40 h-40 bg-teal-50 rounded-full opacity-50"></div>
         <div className="absolute top-20 right-10 w-32 h-32 bg-teal-100 rounded-full opacity-60"></div>
         <div className="absolute top-30 left-40 w-16 h-16 bg-teal-300 rounded-full opacity-60"></div>
