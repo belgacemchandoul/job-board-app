@@ -1,18 +1,34 @@
 import Image from "next/image";
+import Button from "./components/Button";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import LatestJobsSection from "./components/LatestJobsSection";
 
 export default function Home() {
   return (
-    <div className=" flex items-center min-h-screen w-full justify-between absolute top-0 left-0 z-0">
-      <section className="flex flex-col gap-4">
-        <p className="text-[#003366] text-3xl font-bold">
-          Find Your Dream Job Today!
-        </p>
-        <p>Explore multiple job opportunities across various industries.</p>
-        <button className="bg-[#66CCFF] text-white py-2 px-4 rounded w-fit ">
-          Explore jobs
-        </button>
+    <main className="">
+      <section className=" relative flex flex-col items-center min-h-screen w-full justify-evenly z-0 bg-gradient-to-r from-teal-700 to-[#20B2AA] rounded-lg">
+        <div className="absolute top-1 left-1 w-40 h-40 bg-teal-50 rounded-full opacity-50"></div>
+        <div className="absolute top-20 right-10 w-32 h-32 bg-teal-100 rounded-full opacity-60"></div>
+        <div className="absolute top-30 left-40 w-16 h-16 bg-teal-300 rounded-full opacity-60"></div>
+        <div className="absolute bottom-10 left-20 w-24 h-24 bg-teal-200 rounded-full opacity-70"></div>
+        <div className="absolute bottom-20 right-0 w-48 h-48 bg-teal-400 rounded-full opacity-40"></div>
+        <div className="absolute top-40 right-40 w-20 h-20 bg-blue-100 rounded-full opacity-50"></div>
+        <section className="flex flex-col gap-10 items-center">
+          <p className="text-5xl text-white font-bold">
+            Find Your Dream Job Today!
+          </p>
+          <Button text="Explore Jobs">
+            <ArrowForwardIcon sx={{ fontSize: 20, fontWeight: "light" }} />
+          </Button>
+        </section>
+        <Image
+          src="/undraw_team_work_k-80-m (1).svg"
+          width={500}
+          alt="team work"
+          height={500}
+        />
       </section>
-      <Image src="/work2.svg" width={600} alt="team work" height={600} />
-    </div>
+      <LatestJobsSection />
+    </main>
   );
 }

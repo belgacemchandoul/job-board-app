@@ -20,7 +20,7 @@ export default async function RootLayout({
     <html lang="en">
       <SessionWrapper>
         <body className={`${noto.className} min-h-screen`}>
-          <div className="mx-28 relative">
+          <div className="mx-10">
             <Header />
             {children}
           </div>
