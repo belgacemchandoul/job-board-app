@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "./components/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LatestJobsSection from "./components/LatestJobsSection";
+import JobsHomePageSection from "./components/JobsHomePageSection";
 
 export default function Home() {
   return (
@@ -23,12 +24,15 @@ export default function Home() {
         </section>
         <Image
           src="/undraw_team_work_k-80-m (1).svg"
-          width={500}
           alt="team work"
+          priority
           height={500}
+          width={500}
         />
       </section>
-      <LatestJobsSection />
+      <LatestJobsSection>
+        <JobsHomePageSection />
+      </LatestJobsSection>
     </main>
   );
 }

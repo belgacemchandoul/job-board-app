@@ -3,7 +3,10 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-const LatestJobsSection = () => {
+interface LatestJobsSectionProps {
+  children: React.ReactNode;
+}
+const LatestJobsSection: React.FC<LatestJobsSectionProps> = ({ children }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
     triggerOnce: true,
@@ -25,13 +28,13 @@ const LatestJobsSection = () => {
     },
   };
   return (
-    <motion.div className="mt-16 flex items-center flex-col gap-10 mb-44">
+    <motion.div className="mt-16 flex items-center flex-col gap-10 mb-44 ">
       <motion.p
         ref={ref}
         initial="hidden"
         animate={controls}
         variants={variants}
-        className="font-bold text-5xl text-[#003366] border-b-4 border-dashed pb-2 border-[#003366]"
+        className="font-bold text-5xl text-[#003366] border-b-4 pb-2 border-[#003366]"
       >
         Latest Jobs
       </motion.p>
@@ -41,11 +44,7 @@ const LatestJobsSection = () => {
         animate={controls}
         variants={variants}
       >
-        <div>aaaa</div>
-        <div>aaaa</div>
-        <div>aaaa</div>
-        <div>aaaa</div>
-        <div>aaaa</div>
+        {children}
       </motion.div>
     </motion.div>
   );

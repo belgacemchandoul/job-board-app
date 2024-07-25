@@ -7,18 +7,22 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const id = req.nextUrl.searchParams.get("jobId")
+    const id = req.nextUrl.searchParams.get("jobId");
     if (!id) {
-      return new Response(JSON.stringify({ message: "Missing Job ID" }), { status: 400 })
+      return new Response(JSON.stringify({ message: "Missing Job ID" }), { status: 400 });
     }
     const jobData = await prisma.job.findUnique({
-      where: { id: id }
+      where: { id: id },
     });
+    if (!jobData) {
+      return new Response(JSON.stringify({ message: "Job not found" }), { status: 404 });
+    }
     return new Response(JSON.stringify(jobData), { status: 200 });
   } catch (error) {
     return new Response(JSON.stringify({ message: "Not able to fetch jobs" }), { status: 500 });
   }
 }
+
 
 
 export async function PATCH(req: NextRequest) {
