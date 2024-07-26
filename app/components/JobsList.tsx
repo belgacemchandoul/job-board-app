@@ -1,23 +1,55 @@
+"use client";
 import { Job } from "@/types/Job";
-import axios from "axios";
+import truncateDescription from "../utils/truncateDescription";
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import JobDetails from "./JobDetails";
 
-const JobsList = async () => {
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/jobs/api`
-  );
-  if (response.status !== 200) {
-    throw new Error("Failed to fetch jobs");
-  }
-  const jobsData = response.data;
+interface JobsList {
+  jobs: Job[];
+}
+const JobsList: React.FC<JobsList> = ({ jobs }) => {
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const router = useRouter();
+  const searchParam = useSearchParams();
+  const jobId = searchParam.get("jobId");
 
+  useEffect(() => {
+    const initialJob = jobId
+      ? jobs.find((job: Job) => job.id === jobId)
+      : jobs[0];
+    setSelectedJob(initialJob || null);
+    console.log(jobs);
+  }, [jobs, jobId]);
+
+  const handleSelectedJob = (job: Job) => {
+    setSelectedJob(job);
+    const params = new URLSearchParams(window.location.search);
+    params.set("jobId", job.id || "");
+    router.push(`/jobs?${params.toString()}`, { scroll: false });
+  };
   return (
-    <div>
-      {jobsData.map((job: Job) => (
-        <div key={job.id}>
-          <p>{job.title}</p>
-        </div>
-      ))}
-    </div>
+    <main className="max-w-screen grid grid-cols-3 mx-14 gap-10 ">
+      <section className="flex flex-col gap-5">
+        {jobs.map((job: Job) => (
+          <div
+            key={job.id}
+            className="flex flex-col gap-4 border rounded-md p-6 col-span-1 cursor-pointer"
+            onClick={() => handleSelectedJob(job)}
+          >
+            <span className="text-[#003366] font-bold text-xl">
+              {job.title}
+            </span>
+            <span className="font-extralight ">
+              {truncateDescription(job.description, 10)}
+            </span>
+          </div>
+        ))}
+      </section>
+      <div className="col-span-2">
+        <JobDetails selectedJob={selectedJob} />
+      </div>
+    </main>
   );
 };
 export default JobsList;

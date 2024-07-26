@@ -6,7 +6,6 @@ const JobDetailsPage = async ({ params }: { params: { jobId: string } }) => {
     `${process.env.NEXT_PUBLIC_API_URL}/jobs/${params.jobId}/api/?jobId=${params.jobId}`
   );
   const jobDetails: Job = response.data;
-  console.log(jobDetails);
   return <div className="h-screen">{jobDetails.description}</div>;
 };
 
