@@ -2,6 +2,8 @@
 import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import Button from "./Button";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface LatestJobsSectionProps {
   children: React.ReactNode;
@@ -43,8 +45,12 @@ const LatestJobsSection: React.FC<LatestJobsSectionProps> = ({ children }) => {
         initial="hidden"
         animate={controls}
         variants={variants}
+        className="flex items-center flex-col gap-10"
       >
         {children}
+        <Button text="Explore Jobs">
+          <ArrowForwardIcon sx={{ fontSize: 20, fontWeight: "light" }} />
+        </Button>
       </motion.div>
     </motion.div>
   );

@@ -3,6 +3,7 @@ import { Inter, Noto_Sans } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
 import SessionWrapper from "./components/SessionWrapper";
+import Footer from "./components/Footer";
 
 const noto = Noto_Sans({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default async function RootLayout({
           <div className="">
             <Header />
             {children}
+            <Footer />
           </div>
         </body>
       </SessionWrapper>
