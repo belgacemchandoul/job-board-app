@@ -29,24 +29,24 @@ const JobsList: React.FC<JobsList> = ({ jobs }) => {
     router.push(`/jobs?${params.toString()}`, { scroll: false });
   };
   return (
-    <main className="max-w-screen grid grid-cols-3 mx-14 gap-10 ">
-      <section className="flex flex-col gap-5">
+    <main className="grid grid-cols-3 h-screen mx-14 gap-4 mb-3">
+      <section className="flex flex-col gap-5 pr-2 overflow-y-scroll scrollbar-thin scrollbar-thumb">
         {jobs.map((job: Job) => (
           <div
             key={job.id}
-            className="flex flex-col gap-4 border rounded-md p-6 col-span-1 cursor-pointer"
+            className="flex flex-col gap-4 border rounded-md p-6 cursor-pointer"
             onClick={() => handleSelectedJob(job)}
           >
             <span className="text-[#003366] font-bold text-xl">
               {job.title}
             </span>
-            <span className="font-extralight ">
+            <span className="font-extralight">
               {truncateDescription(job.description, 10)}
             </span>
           </div>
         ))}
       </section>
-      <div className="col-span-2">
+      <div className=" col-span-2 overflow-y-auto scrollbar-thin scrollbar-thumb pr-2">
         <JobDetails selectedJob={selectedJob} />
       </div>
     </main>
