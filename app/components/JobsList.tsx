@@ -15,12 +15,23 @@ const JobsList: React.FC<JobsList> = ({ jobs }) => {
   const jobId = searchParam.get("jobId");
 
   useEffect(() => {
-    const initialJob = jobId
+    // Determine the initial job
+    const initialJob: Job | undefined = jobId
       ? jobs.find((job: Job) => job.id === jobId)
       : jobs[0];
-    setSelectedJob(initialJob || null);
-    console.log(jobs);
-  }, [jobs, jobId]);
+
+    if (initialJob && initialJob.id) {
+      setSelectedJob(initialJob);
+
+      // Update the URL if jobId is not in the URL or doesn't match the selected job's id
+      if (!jobId || jobId !== initialJob.id) {
+        const params = new URLSearchParams(window.location.search);
+        params.set("jobId", initialJob.id); // initialJob.id is guaranteed to be a string here
+        router.replace(`/jobs?${params.toString()}`, { scroll: false });
+      }
+    }
+    console.log(typeof initialJob?.id);
+  }, [jobs, jobId, router]);
 
   const handleSelectedJob = (job: Job) => {
     setSelectedJob(job);

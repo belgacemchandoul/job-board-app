@@ -50,7 +50,16 @@ model Job {
   description String
   missions    Json[]
   status      Boolean?
-  skills    Json[]
+  skills      Json[]
+  applicants  UserJob[]
+}
+model UserJob {
+  user      User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  job       Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  userEmail String
+  jobId     String
+
+  @@id([jobId, userEmail])
 }
 
 model User {
@@ -67,4 +76,5 @@ model User {
   skills        Json[]
   languages     Json[]
   resume        Json?
+  jobs          UserJob[]
 }
