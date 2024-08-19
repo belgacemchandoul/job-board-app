@@ -1,27 +1,13 @@
-"use client";
-import axios from "axios";
-import { SubmitHandler } from "react-hook-form";
-import UserCareerForm, {
-  userCareerFormType,
-} from "@/app/components/forms/UserCareerForm";
-const Languages = () => {
-  const onSubmit: SubmitHandler<userCareerFormType> = async (data) => {
-    try {
-      const res = await axios.patch(
-        `${process.env.NEXT_PUBLIC_API_URL}/profile/api`,
-        data
-      );
-      console.log("data submitted successfully", res);
-    } catch (error) {
-      console.log("error updating data", error);
-    }
-  };
-  return (
-    <div>
-      {" "}
-      <UserCareerForm onSubmit={onSubmit} />{" "}
-    </div>
+import { userCareerFormType } from "@/app/components/forms/UserCareerForm";
+import { fetchData } from "@/app/lib/apiUtils";
+import WorkComponent from "@/app/components/Work";
+import { UserCareerProps } from "@/types/interfaces";
+
+const Work: React.FC<UserCareerProps> = async () => {
+  const userWork = await fetchData<userCareerFormType>(
+    `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
   );
+  return <WorkComponent userWork={userWork} />;
 };
 
-export default Languages;
+export default Work;
