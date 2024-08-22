@@ -69,7 +69,7 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
         {fields.map((field, index) => (
           <div key={field.id}>
             <div>
-              <label>Skill</label>
+              <label>Language</label>
               <input
                 type="text"
                 {...register(`languages.${index}.name` as const)}

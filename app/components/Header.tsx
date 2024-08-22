@@ -1,5 +1,4 @@
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "../lib/nextAuth";
 import Login from "./Login";

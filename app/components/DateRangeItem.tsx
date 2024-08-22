@@ -1,3 +1,5 @@
+import capitalizeFirstLetter from "../utils/capitalizeFirstLetter";
+
 interface DateRangeItem {
   label: string;
   details: string;
@@ -12,10 +14,10 @@ const DateRangeItem: React.FC<DateRangeItem> = ({
 }) => {
   return (
     <div>
-      <div>{label}</div>
-      <div>{details}</div>
+      <div>{capitalizeFirstLetter(label)}</div>
+      <div>{capitalizeFirstLetter(details)}</div>
       <div>
-        {startDate} - {endDate}
+        from {startDate} to {endDate}
       </div>
     </div>
   );

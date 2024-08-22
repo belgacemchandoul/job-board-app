@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
-
+const dateRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
 export type userEducationFormType = Pick<User, "education">;
 
 const schema = yup.object().shape({
@@ -14,8 +14,28 @@ const schema = yup.object().shape({
     .of(
       yup.object().shape({
         name: yup.string().required("Skill is required"),
-        startDate: yup.string().required("Skill is required"),
-        endDate: yup.string().required("Skill is required"),
+        startDate: yup
+          .string()
+          .matches(dateRegex, "Start date must be in MM/YYYY format")
+          .required("Skill is required"),
+        endDate: yup
+          .string()
+          .matches(dateRegex, "End date must be in MM/YYYY format")
+          .required("Skill is required")
+          .test(
+            "is-greater",
+            "End date should be later than start date",
+            function (value) {
+              const { startDate } = this.parent;
+              if (!startDate || !value) return true;
+              const [startMonth, startYear] = startDate.split("/").map(Number);
+              const [endMonth, endYear] = value.split("/").map(Number);
+              return (
+                endYear > startYear ||
+                (endYear === startYear && endMonth >= startMonth)
+              );
+            }
+          ),
         diploma: yup.string().required("Skill is required"),
       })
     )

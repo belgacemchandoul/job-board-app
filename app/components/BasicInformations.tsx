@@ -14,7 +14,11 @@ const BasicInformationComponent: React.FC<BasicInformationProps> = ({
     submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
   };
 
-  return <UserInfosForm onSubmit={onSubmit} defaultValues={userData} />;
+  return (
+    <div className="min-h-screen flex justify-center">
+      <UserInfosForm onSubmit={onSubmit} defaultValues={userData} />
+    </div>
+  );
 };
 
 export default BasicInformationComponent;

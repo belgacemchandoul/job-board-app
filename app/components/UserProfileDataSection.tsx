@@ -1,6 +1,7 @@
 import { User } from "@/types/User";
 import UserProfileCard from "./UserProfileCard";
 import DateRangeItem from "./DateRangeItem";
+import capitalizeFirstLetter from "../utils/capitalizeFirstLetter";
 
 interface UserProfileDataSection {
   userData: User;
@@ -12,7 +13,7 @@ const UserProfileDataSection: React.FC<UserProfileDataSection> = ({
     {
       title: "Basic Information",
       data: [
-        { label: "Name", value: userData.name },
+        { label: "Name", value: capitalizeFirstLetter(userData.name) },
         { label: "Email", value: userData.email },
         userData.birthdate === null
           ? { label: "Birthdate", value: "add your birthdate" }
@@ -25,7 +26,6 @@ const UserProfileDataSection: React.FC<UserProfileDataSection> = ({
       data:
         userData.education?.length > 0
           ? userData.education.map((uni) => ({
-              label: uni.name,
               value: (
                 <DateRangeItem
                   label={uni.name}
@@ -39,11 +39,10 @@ const UserProfileDataSection: React.FC<UserProfileDataSection> = ({
       link: "/profile/education",
     },
     {
-      title: "Work",
+      title: "Work experience",
       data:
         userData.work?.length > 0
           ? userData.work.map((work) => ({
-              label: work.name,
               value: (
                 <DateRangeItem
                   label={work.name}
@@ -61,8 +60,7 @@ const UserProfileDataSection: React.FC<UserProfileDataSection> = ({
       data:
         userData.skills?.length > 0
           ? userData.skills.map((skill) => ({
-              label: "Skill",
-              value: skill.name,
+              value: capitalizeFirstLetter(skill.name),
             }))
           : [{ value: "add your skills" }],
       link: "/profile/skills",
@@ -72,15 +70,16 @@ const UserProfileDataSection: React.FC<UserProfileDataSection> = ({
       data:
         userData.languages?.length > 0
           ? userData.languages.map((language) => ({
-              label: "Language",
-              value: language.name,
+              value: `${capitalizeFirstLetter(language.name)} - ${
+                language.level
+              }`,
             }))
           : [{ value: "add your languages" }],
       link: "/profile/languages",
     },
   ];
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col gap-3 w-[28%]">
       {sections.map((section, index) => (
         <UserProfileCard
           key={index}
