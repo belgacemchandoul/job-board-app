@@ -6,8 +6,9 @@ import Logout from "./Logout";
 
 const Header = async () => {
   const session: Session | null = await getServerSession(authOptions);
+
   return (
-    <header className="flex justify-between items-center py-4 select-none z-50 w-full px-14  ">
+    <header className="flex justify-between items-center py-4 select-none z-50 w-full px-14">
       <nav className="flex items-center gap-44">
         <Link
           href="/"

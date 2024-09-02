@@ -1,11 +1,27 @@
+"use client";
 import { Job } from "@/types/Job";
 import Button from "./Button";
 import onJobApply from "../utils/jobApply";
+import { redirect, useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+
 interface JobsList {
   selectedJob: Job | null;
 }
 
 const JobDetails: React.FC<JobsList> = ({ selectedJob }) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const handleApplyClick = async () => {
+    if (status === "loading") return;
+    if (!session) {
+      signIn();
+    } else {
+      await onJobApply({ params: { jobId: selectedJob?.id || "" } });
+      router.push("/profile/applied-jobs");
+    }
+  };
   return (
     <div className="border p-3 rounded-md flex flex-col gap-5">
       <section>
@@ -22,10 +38,7 @@ const JobDetails: React.FC<JobsList> = ({ selectedJob }) => {
           })}
         </div>
       </section>
-      <Button
-        text="Apply"
-        onClick={() => onJobApply({ params: { jobId: selectedJob?.id || "" } })}
-      />
+      <Button text="Apply" onClick={() => handleApplyClick()} />
     </div>
   );
 };
