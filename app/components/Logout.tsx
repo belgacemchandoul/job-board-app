@@ -38,7 +38,7 @@ const Logout = ({ user }: LogoutProps) => {
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:bg-gray-100 px-4 py-2 cursor-pointer">
-          <Link href="/" className="block w-full text-left">
+          <Link href="/profile/applied-jobs" className="block w-full text-left">
             My jobs
           </Link>
         </DropdownMenuItem>

@@ -4,9 +4,13 @@ import { fetchData } from "@/app/lib/apiUtils";
 import { authOptions } from "@/app/lib/nextAuth";
 import { BasicInformationProps } from "@/types/interfaces";
 import { getServerSession, Session } from "next-auth";
+import { redirect } from "next/navigation";
 
 const BasicInformation: React.FC<BasicInformationProps> = async () => {
   const session: Session | null = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/");
+  }
   const userSkills = await fetchData<userInfoFormType>(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
   );

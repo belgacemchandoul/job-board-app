@@ -1,8 +1,15 @@
 import UserProfileDataSection from "../components/UserProfileDataSection";
 import { User } from "@/types/User";
 import axiosInstance from "../lib/axiosInterceptor";
+import { getServerSession, Session } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "../lib/nextAuth";
 
 const Profile = async () => {
+  const session: Session | null = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/");
+  }
   const response = await axiosInstance.get(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
   );
