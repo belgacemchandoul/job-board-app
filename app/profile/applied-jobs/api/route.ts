@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         job: {
           select: {
             title: true,
-            id: true,
+            description: true
           },
         },
       },
