@@ -24,18 +24,29 @@ const JobDetails: React.FC<JobsList> = ({ selectedJob }) => {
   };
   return (
     <div className="border p-3 rounded-md flex flex-col gap-5">
-      <section>
-        <div>{selectedJob?.title}</div>
-        <div>{selectedJob?.description}</div>
-        <div>
-          {selectedJob?.missions.map((mission, index) => {
-            return <p key={index}>{mission.mission}</p>;
-          })}
+      <section className="flex flex-col gap-3">
+        <div className="font-medium text-xl text-[#003366]">
+          {selectedJob?.title}
         </div>
-        <div>
-          {selectedJob?.skills.map((skill, index) => {
-            return <p key={index}>{skill.skill}</p>;
-          })}
+        <div className="flex flex-col gap-2">
+          <span className="text-gray-600 font-semibold ">Job description:</span>
+          <div>{selectedJob?.description}</div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-gray-600 font-semibold ">Your missions:</span>
+          <ul>
+            {selectedJob?.missions.map((mission, index) => (
+              <li key={index}>- {mission.mission}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-gray-600 font-semibold ">Required skills:</span>
+          <ul>
+            {selectedJob?.skills.map((skill, index) => (
+              <li key={index}>- {skill.skill}</li>
+            ))}
+          </ul>
         </div>
       </section>
       <Button text="Apply" onClick={() => handleApplyClick()} />
