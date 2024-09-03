@@ -10,7 +10,12 @@ const SkillsComponent: React.FC<UserSkillsProps> = ({ userSkills }) => {
   const onSubmit: SubmitHandler<userSkillsFormType> = (data) => {
     submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
   };
-  return <UserSkillsForm defaultValues={userSkills} onSubmit={onSubmit} />;
+  return (
+    <div className="min-h-screen flex flex-col items-center mt-7">
+      <div className="font-medium text-2xl text-[#003366]">Skills</div>
+      <UserSkillsForm defaultValues={userSkills} onSubmit={onSubmit} />
+    </div>
+  );
 };
 
 export default SkillsComponent;

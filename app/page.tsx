@@ -3,6 +3,7 @@ import Button from "./components/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LatestJobsSection from "./components/LatestJobsSection";
 import JobsHomePageSection from "./components/JobsHomePageSection";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -18,9 +19,11 @@ export default function Home() {
           <p className="text-5xl text-white font-bold">
             Find Your Dream Job Today!
           </p>
-          <Button text="Explore Jobs">
-            <ArrowForwardIcon sx={{ fontSize: 20, fontWeight: "light" }} />
-          </Button>
+          <Link href="/jobs">
+            <Button text="Explore Jobs">
+              <ArrowForwardIcon sx={{ fontSize: 20, fontWeight: "light" }} />
+            </Button>
+          </Link>
         </section>
         <Image
           src="/undraw_team_work_k-80-m (1).svg"

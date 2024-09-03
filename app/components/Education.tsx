@@ -15,7 +15,10 @@ const EducationComponent: React.FC<UserEducationProps> = ({
     submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
   };
   return (
-    <UserEducationForm defaultValues={userEducation} onSubmit={onSubmit} />
+    <div className="min-h-screen flex flex-col items-center mt-7">
+      <div className="font-medium text-2xl text-[#003366]">Education</div>
+      <UserEducationForm defaultValues={userEducation} onSubmit={onSubmit} />
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@
 import { Job } from "@/types/Job";
 import Button from "./Button";
 import onJobApply from "../utils/jobApply";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 
 interface JobsList {

@@ -5,6 +5,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
+import Input from "../Input";
+import DeleteButton from "./FormDeleteButton";
+import AddButton from "./FormAddButton";
+import SubmitButton from "./FormSubmitButton";
 
 export type userSkillsFormType = Pick<User, "skills">;
 
@@ -54,38 +58,42 @@ const UserSkillsForm: React.FC<JobFormProps> = ({
     }
   }, [isSubmitting]);
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <div>
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            <div>
-              <label>Skill</label>
-              <input
-                type="text"
-                {...register(`skills.${index}.name` as const)}
-              />
-              {errors.skills?.[index]?.name && (
-                <span>{errors.skills[index]?.name?.message}</span>
-              )}
-            </div>
-            {index > 0 && (
-              <button type="button" onClick={() => remove(index)}>
-                Delete
-              </button>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-8 transition duration-300 h-fit w-1/3"
+    >
+      {fields.map((field, index) => (
+        <div key={field.id} className="flex flex-col gap-3 w-full">
+          <div className="flex gap-4 items-center w-full">
+            <label className="w-1/3 text-left">Skill</label>
+            <Input
+              type="text"
+              register={register(`skills.${index}.name` as const)}
+            />
+            {errors.skills?.[index]?.name && (
+              <span className="text-red-500">
+                {errors.skills[index]?.name?.message}
+              </span>
             )}
           </div>
-        ))}
-        <button type="button" onClick={() => append({ name: "" })}>
-          Add Skill
+          <div className="flex items-center justify-center">
+            {index > 0 && <DeleteButton onClick={() => remove(index)} />}
+          </div>
+          <hr />
+        </div>
+      ))}
+      <div className="flex gap-2">
+        {" "}
+        <AddButton onClick={() => append({ name: "" })} />
+        <SubmitButton
+          isLoading={isSubmitting}
+          disabled={!isDirty || !isValid}
+        />
+        <button type="button" onClick={() => reset()}>
+          Reset
         </button>
       </div>
-
-      <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
-        Submit
-      </button>
-      <button type="button" onClick={() => reset()}>
-        Reset
-      </button>
     </form>
   );
 };

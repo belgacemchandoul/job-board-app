@@ -5,6 +5,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
+import Input from "../Input";
+import DeleteButton from "./FormDeleteButton";
+import AddButton from "./FormAddButton";
+import SubmitButton from "./FormSubmitButton";
 const dateRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
 export type userEducationFormType = Pick<User, "education">;
 
@@ -80,73 +84,82 @@ const UserEducationForm: React.FC<JobFormProps> = ({
     }
   }, [isSubmitting]);
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <div>
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            <div>
-              <label>University</label>
-              <input
-                type="text"
-                {...register(`education.${index}.name` as const)}
-              />
-              {errors.education?.[index]?.name && (
-                <span>{errors.education[index]?.name?.message}</span>
-              )}
-            </div>
-            <div>
-              <label>Diploma</label>
-              <input
-                type="text"
-                {...register(`education.${index}.diploma` as const)}
-              />
-              {errors.education?.[index]?.diploma && (
-                <span>{errors.education[index]?.diploma?.message}</span>
-              )}
-            </div>
-            <div>
-              <label>Start Date</label>
-              <input
-                type="date"
-                {...register(`education.${index}.startDate` as const)}
-              />
-              {errors.education?.[index]?.startDate && (
-                <span>{errors.education[index]?.startDate?.message}</span>
-              )}
-            </div>
-            <div>
-              <label>End Date</label>
-              <input
-                type="date"
-                {...register(`education.${index}.endDate` as const)}
-              />
-              {errors.education?.[index]?.endDate && (
-                <span>{errors.education[index]?.endDate?.message}</span>
-              )}
-            </div>
-            {index > 0 && (
-              <button type="button" onClick={() => remove(index)}>
-                Delete
-              </button>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-8 transition duration-300 h-fit w-1/3"
+    >
+      {fields.map((field, index) => (
+        <div key={field.id} className="flex flex-col gap-3 w-full">
+          <div className="flex gap-4 items-center w-full">
+            <label className="w-1/3 text-left">University</label>
+            <Input
+              type="text"
+              register={register(`education.${index}.name` as const)}
+            />
+            {errors.education?.[index]?.name && (
+              <span className="text-red-500">
+                {errors.education[index]?.name?.message}
+              </span>
             )}
           </div>
-        ))}
-        <button
-          type="button"
+          <div className="flex gap-4 items-center w-full">
+            <label className="w-1/3 text-left">Diploma</label>
+            <Input
+              type="text"
+              register={register(`education.${index}.diploma` as const)}
+            />
+            {errors.education?.[index]?.diploma && (
+              <span className="text-red-500">
+                {errors.education[index]?.diploma?.message}
+              </span>
+            )}
+          </div>
+          <div className="flex gap-4 items-center w-full">
+            <label className="w-1/3 text-left">Start Date</label>
+            <Input
+              type="date"
+              register={register(`education.${index}.startDate` as const)}
+            />
+            {errors.education?.[index]?.startDate && (
+              <span className="text-red-500">
+                {errors.education[index]?.startDate?.message}
+              </span>
+            )}
+          </div>
+          <div className="flex gap-4 items-center w-full">
+            <label className="w-1/3 text-left">End Date</label>
+            <Input
+              type="date"
+              register={register(`education.${index}.endDate` as const)}
+            />
+            {errors.education?.[index]?.endDate && (
+              <span className="text-red-500">
+                {errors.education[index]?.endDate?.message}
+              </span>
+            )}
+          </div>
+          <div className="flex items-center justify-center">
+            {index > 0 && <DeleteButton onClick={() => remove(index)} />}
+          </div>
+          <hr />
+        </div>
+      ))}
+      <div className="flex gap-2">
+        {" "}
+        <AddButton
           onClick={() =>
             append({ name: "", diploma: "", startDate: "", endDate: "" })
           }
-        >
-          Add Education
+        />
+        <SubmitButton
+          isLoading={isSubmitting}
+          disabled={!isDirty || !isValid}
+        />
+        <button type="button" onClick={() => reset()}>
+          Reset
         </button>
       </div>
-
-      <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
-        Submit
-      </button>
-      <button type="button" onClick={() => reset()}>
-        Reset
-      </button>
     </form>
   );
 };
