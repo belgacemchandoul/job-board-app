@@ -12,7 +12,7 @@ const EducationComponent: React.FC<UserEducationProps> = ({
 }) => {
   const submitForm = useFormSubmit<userEducationFormType>();
   const onSubmit: SubmitHandler<userEducationFormType> = (data) => {
-    submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
+    return submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
   };
   return (
     <div className="min-h-screen flex flex-col items-center mt-7">

@@ -25,16 +25,14 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
   const {
     control,
     handleSubmit,
-    formState: { isDirty, isSubmitting, isValid, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors },
     reset,
   } = useForm<userInfoFormType>({
     resolver: yupResolver(schema),
     defaultValues: defaultValues || { email: "", name: "", birthdate: "" },
   });
   useEffect(() => {
-    if (isSubmitting) {
-      console.log(isSubmitting, "Form is submitting...");
-    }
+    console.log("isSubmitting:", isSubmitting);
   }, [isSubmitting]);
   return (
     <form
@@ -42,40 +40,43 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
       noValidate
       className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-8 transition duration-300 h-fit w-1/3"
     >
-      <div className="flex gap-4 items-center w-full">
-        <label className="w-1/3 text-left">Email</label>
-        <div className="w-2/3">
-          <Controller
-            control={control}
-            name="email"
-            render={({ field }) => <Input {...field} />}
-          />
+      <div className="flex gap-2 items-center w-full flex-col">
+        <div className="flex gap-4 items-center w-full">
+          <label className="w-1/3 text-left">Email</label>
+          <div className="w-2/3">
+            <Controller
+              control={control}
+              name="email"
+              render={({ field }) => <Input {...field} />}
+            />
+          </div>
         </div>
-        {errors.email && (
-          <span className="text-red-500">{errors.email.message}</span>
-        )}
       </div>
-      <div className="flex gap-4 items-center w-full">
-        <label className="w-1/3 text-left">Name</label>
-        <div className="w-2/3">
-          <Controller
-            control={control}
-            name="name"
-            render={({ field }) => <Input {...field} />}
-          />
+      <div className="flex gap-2 items-center w-full flex-col">
+        <div className="flex gap-4 items-center w-full">
+          <label className="w-1/3 text-left">Name</label>
+          <div className="w-2/3">
+            <Controller
+              control={control}
+              name="name"
+              render={({ field }) => <Input {...field} />}
+            />
+          </div>
         </div>
       </div>
       {errors.name && (
         <span className="text-red-500">{errors.name.message}</span>
       )}
-      <div className="flex gap-4 items-center w-full">
-        <label className="w-1/3 text-left">Birthdate</label>
-        <div className="w-2/3">
-          <Controller
-            control={control}
-            name="birthdate"
-            render={({ field }) => <Input type="date" {...field} />}
-          />
+      <div className="flex gap-2 items-center w-full flex-col">
+        <div className="flex gap-4 items-center w-full">
+          <label className="w-1/3 text-left">Birthdate</label>
+          <div className="w-2/3">
+            <Controller
+              control={control}
+              name="birthdate"
+              render={({ field }) => <Input type="date" {...field} />}
+            />
+          </div>
         </div>
         {errors.birthdate && (
           <span className="text-red-500">{errors.birthdate.message}</span>
@@ -84,7 +85,8 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
       <section className="flex gap-4">
         <SubmitButton
           isLoading={isSubmitting}
-          disabled={!isDirty || !isValid}
+          disabled={isSubmitting || !isDirty || isSubmitted}
+          isSubmitted={isSubmitted}
         />
         <button type="button" onClick={() => reset()}>
           Reset

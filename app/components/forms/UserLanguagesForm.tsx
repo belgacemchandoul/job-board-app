@@ -22,7 +22,7 @@ const schema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        name: yup.string().required("Skill is required"),
+        name: yup.string().required("Language is required"),
         level: yup
           .string()
           .oneOf(["Beginner", "Intermediate", "Advanced"], "Level is required")
@@ -45,7 +45,7 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
     control,
     handleSubmit,
     register,
-    formState: { isDirty, isSubmitting, isValid, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors },
     reset,
   } = useForm<userLanguagesFormType>({
     resolver: yupResolver(schema),
@@ -62,11 +62,6 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
     name: "languages",
     control,
   });
-  useEffect(() => {
-    if (isSubmitting) {
-      console.log("Form is submitting...");
-    }
-  }, [isSubmitting]);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -75,29 +70,33 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
     >
       {fields.map((field, index) => (
         <div key={field.id} className="flex flex-col gap-3 w-full">
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Language</label>
-            <Input
-              type="text"
-              register={register(`languages.${index}.name` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Language</label>
+              <Input
+                type="text"
+                register={register(`languages.${index}.name` as const)}
+              />
+            </div>
             {errors.languages?.[index]?.name && (
               <span className="text-red-500">
                 {errors.languages[index]?.name?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Level</label>
-            <select
-              {...register(`languages.${index}.level` as const)}
-              className="outline-none p-2 border rounded-md shadow-sm w-full cursor-pointer"
-            >
-              <option value="">Select Level</option>
-              <option value="Beginner">Beginner</option>
-              <option value="Intermediate">Intermediate</option>
-              <option value="Advanced">Advanced</option>
-            </select>
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Level</label>
+              <select
+                {...register(`languages.${index}.level` as const)}
+                className="outline-none p-2 border rounded-md shadow-sm w-full cursor-pointer"
+              >
+                <option value="">Select Level</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
             {errors.languages?.[index]?.level && (
               <span>{errors.languages[index]?.level?.message}</span>
             )}
@@ -113,7 +112,8 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
         <AddButton onClick={() => append({ name: "", level: "Beginner" })} />
         <SubmitButton
           isLoading={isSubmitting}
-          disabled={!isDirty || !isValid}
+          disabled={isSubmitting || !isDirty || isSubmitted}
+          isSubmitted={isSubmitted}
         />
         <button type="button" onClick={() => reset()}>
           Reset

@@ -36,7 +36,7 @@ const UserSkillsForm: React.FC<JobFormProps> = ({
     control,
     handleSubmit,
     register,
-    formState: { isDirty, isSubmitting, isValid, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors },
     reset,
   } = useForm<userSkillsFormType>({
     resolver: yupResolver(schema),
@@ -65,12 +65,14 @@ const UserSkillsForm: React.FC<JobFormProps> = ({
     >
       {fields.map((field, index) => (
         <div key={field.id} className="flex flex-col gap-3 w-full">
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Skill</label>
-            <Input
-              type="text"
-              register={register(`skills.${index}.name` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Skill</label>
+              <Input
+                type="text"
+                register={register(`skills.${index}.name` as const)}
+              />
+            </div>
             {errors.skills?.[index]?.name && (
               <span className="text-red-500">
                 {errors.skills[index]?.name?.message}
@@ -88,7 +90,8 @@ const UserSkillsForm: React.FC<JobFormProps> = ({
         <AddButton onClick={() => append({ name: "" })} />
         <SubmitButton
           isLoading={isSubmitting}
-          disabled={!isDirty || !isValid}
+          disabled={isSubmitting || !isDirty || isSubmitted}
+          isSubmitted={isSubmitted}
         />
         <button type="button" onClick={() => reset()}>
           Reset

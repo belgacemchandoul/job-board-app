@@ -17,15 +17,11 @@ const schema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        name: yup.string().required("Skill is required"),
-        startDate: yup
-          .string()
-          .matches(dateRegex, "Start date must be in MM/YYYY format")
-          .required("Skill is required"),
+        name: yup.string().required("University name is required"),
+        startDate: yup.string().required("Start date is required"),
         endDate: yup
           .string()
-          .matches(dateRegex, "End date must be in MM/YYYY format")
-          .required("Skill is required")
+          .required("End date is required")
           .test(
             "is-greater",
             "End date should be later than start date",
@@ -40,7 +36,7 @@ const schema = yup.object().shape({
               );
             }
           ),
-        diploma: yup.string().required("Skill is required"),
+        diploma: yup.string().required("Diploma is required"),
       })
     )
     .required(),
@@ -59,7 +55,7 @@ const UserEducationForm: React.FC<JobFormProps> = ({
     control,
     handleSubmit,
     register,
-    formState: { isDirty, isSubmitting, isValid, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors },
     reset,
   } = useForm<userEducationFormType>({
     resolver: yupResolver(schema),
@@ -91,48 +87,56 @@ const UserEducationForm: React.FC<JobFormProps> = ({
     >
       {fields.map((field, index) => (
         <div key={field.id} className="flex flex-col gap-3 w-full">
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">University</label>
-            <Input
-              type="text"
-              register={register(`education.${index}.name` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">University</label>
+              <Input
+                type="text"
+                register={register(`education.${index}.name` as const)}
+              />
+            </div>
             {errors.education?.[index]?.name && (
               <span className="text-red-500">
                 {errors.education[index]?.name?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Diploma</label>
-            <Input
-              type="text"
-              register={register(`education.${index}.diploma` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Diploma</label>
+              <Input
+                type="text"
+                register={register(`education.${index}.diploma` as const)}
+              />
+            </div>
             {errors.education?.[index]?.diploma && (
               <span className="text-red-500">
                 {errors.education[index]?.diploma?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Start Date</label>
-            <Input
-              type="date"
-              register={register(`education.${index}.startDate` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Start Date</label>
+              <Input
+                type="date"
+                register={register(`education.${index}.startDate` as const)}
+              />
+            </div>
             {errors.education?.[index]?.startDate && (
               <span className="text-red-500">
                 {errors.education[index]?.startDate?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">End Date</label>
-            <Input
-              type="date"
-              register={register(`education.${index}.endDate` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">End Date</label>
+              <Input
+                type="date"
+                register={register(`education.${index}.endDate` as const)}
+              />
+            </div>
             {errors.education?.[index]?.endDate && (
               <span className="text-red-500">
                 {errors.education[index]?.endDate?.message}
@@ -154,7 +158,8 @@ const UserEducationForm: React.FC<JobFormProps> = ({
         />
         <SubmitButton
           isLoading={isSubmitting}
-          disabled={!isDirty || !isValid}
+          disabled={isSubmitting || !isDirty || isSubmitted}
+          isSubmitted={isSubmitted}
         />
         <button type="button" onClick={() => reset()}>
           Reset

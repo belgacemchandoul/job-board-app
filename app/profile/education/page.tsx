@@ -6,7 +6,7 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/lib/nextAuth";
 import { redirect } from "next/navigation";
 
-const Education: React.FC<UserEducationProps> = async () => {
+const Education = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
     redirect("/");

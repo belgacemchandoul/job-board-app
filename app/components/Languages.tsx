@@ -12,7 +12,7 @@ const LanguagesComponent: React.FC<UserLanguagesProps> = ({
 }) => {
   const submitForm = useFormSubmit<userLanguagesFormType>();
   const onSubmit: SubmitHandler<userLanguagesFormType> = (data) => {
-    submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
+    return submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
   };
   return (
     <div className="min-h-screen flex flex-col items-center mt-7">

@@ -7,8 +7,8 @@ export const useFormSubmit = <T,>() => {
   return useCallback(
     async (url: string, data: T) => {
       try {
-        const res = await axios.patch(url, data);
-        console.log("Data submitted successfully", res);
+        await axios.patch(url, data);
+
         router.replace('/profile');
         router.refresh()
       } catch (error) {

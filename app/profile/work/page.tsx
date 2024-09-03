@@ -6,7 +6,7 @@ import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/lib/nextAuth";
 import { redirect } from "next/navigation";
 
-const Work: React.FC<UserCareerProps> = async () => {
+const Work = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
     redirect("/");

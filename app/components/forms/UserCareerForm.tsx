@@ -17,10 +17,26 @@ const schema = yup.object().shape({
     .array()
     .of(
       yup.object().shape({
-        name: yup.string().required("Skill is required"),
-        startDate: yup.string().required("Skill is required"),
-        endDate: yup.string().required("Skill is required"),
-        job: yup.string().required("Skill is required"),
+        name: yup.string().required("Company name name is required"),
+        startDate: yup.string().required("Start date is required"),
+        endDate: yup
+          .string()
+          .required("End date is required")
+          .test(
+            "is-greater",
+            "End date should be later than start date",
+            function (value) {
+              const { startDate } = this.parent;
+              if (!startDate || !value) return true;
+              const [startMonth, startYear] = startDate.split("/").map(Number);
+              const [endMonth, endYear] = value.split("/").map(Number);
+              return (
+                endYear > startYear ||
+                (endYear === startYear && endMonth >= startMonth)
+              );
+            }
+          ),
+        job: yup.string().required("Job is required"),
       })
     )
     .required(),
@@ -39,7 +55,7 @@ const UserCareerForm: React.FC<JobFormProps> = ({
     control,
     handleSubmit,
     register,
-    formState: { isDirty, isSubmitting, isValid, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors },
     reset,
   } = useForm<userCareerFormType>({
     resolver: yupResolver(schema),
@@ -72,48 +88,56 @@ const UserCareerForm: React.FC<JobFormProps> = ({
     >
       {fields.map((field, index) => (
         <div key={field.id} className="flex flex-col gap-3 w-full">
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Company</label>
-            <Input
-              type="text"
-              register={register(`work.${index}.name` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Company</label>
+              <Input
+                type="text"
+                register={register(`work.${index}.name` as const)}
+              />
+            </div>
             {errors.work?.[index]?.name && (
               <span className="text-red-500">
                 {errors.work[index]?.name?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-1/3 text-left">Job Title</label>
-            <Input
-              type="text"
-              register={register(`work.${index}.job` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-1/3 text-left">Job Title</label>
+              <Input
+                type="text"
+                register={register(`work.${index}.job` as const)}
+              />
+            </div>
             {errors.work?.[index]?.job && (
               <span className="text-red-500">
                 {errors.work[index]?.job?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-2/3 text-left">Start Date</label>
-            <Input
-              type="date"
-              register={register(`work.${index}.startDate` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-2/3 text-left">Start Date</label>
+              <Input
+                type="date"
+                register={register(`work.${index}.startDate` as const)}
+              />
+            </div>
             {errors.work?.[index]?.startDate && (
               <span className="text-red-500">
                 {errors.work[index]?.startDate?.message}
               </span>
             )}
           </div>
-          <div className="flex gap-4 items-center w-full">
-            <label className="w-2/3 text-left">End Date</label>
-            <Input
-              type="date"
-              register={register(`work.${index}.endDate` as const)}
-            />
+          <div className="flex gap-2 items-center w-full flex-col">
+            <div className="flex gap-4 items-center w-full">
+              <label className="w-2/3 text-left">End Date</label>
+              <Input
+                type="date"
+                register={register(`work.${index}.endDate` as const)}
+              />
+            </div>
             {errors.work?.[index]?.endDate && (
               <span className="text-red-500">
                 {errors.work[index]?.endDate?.message}
@@ -135,7 +159,8 @@ const UserCareerForm: React.FC<JobFormProps> = ({
         />
         <SubmitButton
           isLoading={isSubmitting}
-          disabled={!isDirty || !isValid}
+          disabled={isSubmitting || !isDirty || isSubmitted}
+          isSubmitted={isSubmitted}
         />
         <button type="button" onClick={() => reset()}>
           Reset

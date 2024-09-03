@@ -8,7 +8,7 @@ import { UserCareerProps } from "@/types/interfaces";
 const WorkComponent: React.FC<UserCareerProps> = ({ userWork }) => {
   const submitForm = useFormSubmit<userCareerFormType>();
   const onSubmit: SubmitHandler<userCareerFormType> = (data) => {
-    submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
+    return submitForm(`${process.env.NEXT_PUBLIC_API_URL}/profile/api`, data);
   };
   return (
     <div className="min-h-screen flex flex-col items-center mt-7">

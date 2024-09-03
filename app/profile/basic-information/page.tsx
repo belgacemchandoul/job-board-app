@@ -6,25 +6,20 @@ import { BasicInformationProps } from "@/types/interfaces";
 import { getServerSession, Session } from "next-auth";
 import { redirect } from "next/navigation";
 
-const BasicInformation: React.FC<BasicInformationProps> = async () => {
+const BasicInformation = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
     redirect("/");
   }
-  const userSkills = await fetchData<userInfoFormType>(
+  const userInfos = await fetchData<userInfoFormType>(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
   );
-  const userData: userInfoFormType = session
-    ? {
-        email: session.user?.email || "",
-        name: session.user?.name || "",
-        birthdate: userSkills.birthdate || "",
-      }
-    : {
-        email: "",
-        name: "",
-        birthdate: "",
-      };
+  const userData: userInfoFormType = {
+    email: session.user?.email || "",
+    name: session.user?.name || "",
+    birthdate: userInfos.birthdate || "",
+  };
+
   return <BasicInformationComponent userData={userData} />;
 };
 
