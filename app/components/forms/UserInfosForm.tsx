@@ -47,7 +47,7 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
             <Controller
               control={control}
               name="email"
-              render={({ field }) => <Input {...field} />}
+              render={({ field }) => <Input {...field} disabled />}
             />
           </div>
         </div>

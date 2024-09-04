@@ -11,7 +11,7 @@ const Jobs = async () => {
   }
   const jobsData: Job[] = response.data;
   return (
-    <div className="w-full overflow-hidden">
+    <div className="w-full overflow-hidden mt-10">
       <JobsList jobs={jobsData} />
     </div>
   );
