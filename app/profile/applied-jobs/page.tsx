@@ -12,14 +12,14 @@ import truncateDescription from "@/app/utils/truncateDescription";
 const AppliedJobs = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
-    redirect("/");
+    redirect("/auth/sign-in");
   }
   const response = await axiosInstance.get(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/applied-jobs/api`
   );
   const data: AppliedJob[] = response.data;
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-7">
       {data.length === 0 ? (
         <div className="flex flex-col items-center gap-10">
           <div className="font-medium text-3xl text-[#003366] mt-4">
@@ -36,7 +36,7 @@ const AppliedJobs = async () => {
           <div className="font-medium text-3xl text-[#003366] mt-4">
             You applied to {data.length} {data.length === 1 ? "job" : "jobs"}
           </div>
-          <section className="flex gap-5">
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ">
             {data.map((appliedJob) => (
               <JobCard
                 key={appliedJob.jobId}

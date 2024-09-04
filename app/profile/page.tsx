@@ -8,7 +8,7 @@ import { authOptions } from "../lib/nextAuth";
 const Profile = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
-    redirect("/");
+    redirect("/auth/sign-in");
   }
   const response = await axiosInstance.get(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`

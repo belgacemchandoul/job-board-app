@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 const Education = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
-    redirect("/");
+    redirect("/auth/sign-in");
   }
   const userEducation = await fetchData<userEducationFormType>(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
