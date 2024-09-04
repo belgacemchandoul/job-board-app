@@ -26,7 +26,7 @@ export default async function RootLayout({
             <Header />
             <Toaster position="top-center" reverseOrder={false} />
             {children}
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </body>
       </SessionWrapper>

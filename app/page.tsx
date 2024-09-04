@@ -33,9 +33,9 @@ export default function Home() {
           width={500}
         />
       </section>
-      <LatestJobsSection>
+      {/* <LatestJobsSection>
         <JobsHomePageSection />
-      </LatestJobsSection>
+      </LatestJobsSection> */}
     </main>
   );
 }

@@ -9,6 +9,7 @@ import Link from "next/link";
 interface LatestJobsSectionProps {
   children: React.ReactNode;
 }
+
 const LatestJobsSection: React.FC<LatestJobsSectionProps> = ({ children }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView({
@@ -30,32 +31,34 @@ const LatestJobsSection: React.FC<LatestJobsSectionProps> = ({ children }) => {
       transition: { duration: 0.75 },
     },
   };
+
   return (
-    <motion.div className="mt-16 flex items-center flex-col gap-10 mb-44 ">
-      <motion.p
-        ref={ref}
-        initial="hidden"
-        animate={controls}
-        variants={variants}
-        className="font-bold text-5xl text-[#003366] border-b-4 pb-2 border-[#003366]"
-      >
-        Latest Jobs
-      </motion.p>
+    <section className="relative bg-white py-16 px-4 overflow-hidden min-h-screen">
+      {/* Decorative Shapes */}
+      <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-blue-100 rounded-full opacity-50"></div>
+      <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-blue-200 rounded-full opacity-40"></div>
+      <div className="absolute top-1/4 left-1/4 w-1/4 h-1/4 bg-blue-300 rounded-full opacity-60"></div>
+
       <motion.div
+        className="relative flex flex-col items-center gap-10 z-10"
         ref={ref}
         initial="hidden"
         animate={controls}
         variants={variants}
-        className="flex items-center flex-col gap-10"
       >
-        {children}
-        <Link href="/jobs">
-          <Button text="Explore Jobs">
-            <ArrowForwardIcon sx={{ fontSize: 20, fontWeight: "light" }} />
-          </Button>
-        </Link>
+        <motion.p className="text-4xl font-bold text-[#003366] border-b-4 border-[#003366] pb-2 mb-6">
+          Latest Jobs
+        </motion.p>
+        <motion.div className="flex flex-col gap-10 items-center">
+          {children}
+          <Link href="/jobs">
+            <Button text="Explore Jobs">
+              <ArrowForwardIcon sx={{ fontSize: 20, fontWeight: "light" }} />
+            </Button>
+          </Link>
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </section>
   );
 };
 

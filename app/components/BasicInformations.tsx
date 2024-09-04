@@ -15,7 +15,7 @@ const BasicInformationComponent: React.FC<BasicInformationProps> = ({
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center mt-7">
+    <div className="flex flex-col items-center mt-7">
       <div className="font-medium text-2xl text-[#003366]">
         Basic information
       </div>
