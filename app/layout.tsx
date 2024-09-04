@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/Header";
 import SessionWrapper from "./components/SessionWrapper";
 import Footer from "./components/Footer";
+import { Toaster } from "react-hot-toast";
 
 const noto = Noto_Sans({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default async function RootLayout({
         <body className={`${noto.className} min-h-screen`}>
           <div className="">
             <Header />
+            <Toaster position="top-center" reverseOrder={false} />
             {children}
             <Footer />
           </div>

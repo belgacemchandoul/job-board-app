@@ -1,18 +1,40 @@
 "use client";
 import { SubmitHandler } from "react-hook-form";
 import JobForm from "../components/forms/JobForm";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { Job } from "@/types/Job";
+import toast from "react-hot-toast";
 
 const onSubmit: SubmitHandler<Job> = async (data) => {
+  const toastJobId = "job-submit-toast";
+  toast.loading("Submitting job...", { id: toastJobId });
+
   try {
-    const res = await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/jobs/api`,
       data
     );
-    console.log("data submitted successfully", res);
-  } catch (error) {
-    console.log("error creating job", error);
+
+    if (response.status === 201) {
+      toast.success("Job submitted successfully!", { id: toastJobId });
+    } else {
+      toast.error(`Unexpected response: ${response.status}`, {
+        id: toastJobId,
+      });
+    }
+  } catch (error: any) {
+    if (error instanceof AxiosError) {
+      toast.error(
+        `Failed to submit job: ${
+          error.response?.data?.message || error.message
+        }`,
+        { id: toastJobId }
+      );
+    } else {
+      toast.error(`Failed to submit job: ${error.message || "Unknown error"}`, {
+        id: toastJobId,
+      });
+    }
   }
 };
 
