@@ -14,7 +14,7 @@ const JobDetails: React.FC<JobsList> = ({ selectedJob }) => {
 
   return (
     selectedJob && (
-      <div className="border p-3 rounded-md ">
+      <div className="md:border md:p-3 rounded-md ">
         {" "}
         <JobDetailsComponent job={selectedJob} onApply={handleApply} />
       </div>

@@ -50,22 +50,24 @@ const JobDetailsComponent: React.FC<JobDetailsProps> = ({ job, onApply }) => {
   return (
     <div className="flex flex-col gap-5">
       <section className="flex flex-col gap-3">
-        <div className="font-medium text-xl text-[#003366]">{job?.title}</div>
-        <div className="flex flex-col gap-2">
-          <span className="text-gray-600 font-semibold ">Job description:</span>
-          <div>{job?.description}</div>
+        <div className="font-medium text-lg lg:text-xl text-[#003366]">
+          {job?.title}
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-gray-600 font-semibold ">Your missions:</span>
-          <ul>
+          <span className="text-gray-600 font-semibold">Job description:</span>
+          <div className="text-sm lg:text-base">{job?.description}</div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <span className="text-gray-600 font-semibold">Your missions:</span>
+          <ul className="text-sm lg:text-base">
             {job?.missions.map((mission, index) => (
               <li key={index}>- {mission.mission}</li>
             ))}
           </ul>
         </div>
         <div className="flex flex-col gap-2">
-          <span className="text-gray-600 font-semibold ">Required skills:</span>
-          <ul>
+          <span className="text-gray-600 font-semibold">Required skills:</span>
+          <ul className="text-sm lg:text-base">
             {job?.skills.map((skill, index) => (
               <li key={index}>- {skill.skill}</li>
             ))}
