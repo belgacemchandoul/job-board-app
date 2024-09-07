@@ -17,7 +17,7 @@ export default function Home() {
         <div className="absolute top-40 right-40 w-10 h-10 sm:w-20 sm:h-20 bg-blue-100 rounded-full opacity-50"></div>
 
         <section className="flex flex-col gap-5 sm:gap-10 items-center text-center px-4 sm:px-0">
-          <p className="md:text-3xl text-4xl text-white font-bold">
+          <p className="md:text-6xl text-4xl text-white font-bold">
             Find Your Dream Job Today!
           </p>
           <Link href="/jobs">

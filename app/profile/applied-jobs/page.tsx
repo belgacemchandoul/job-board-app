@@ -36,7 +36,7 @@ const AppliedJobs = async () => {
           <div className="font-medium text-3xl text-[#003366] mt-4">
             You applied to {data.length} {data.length === 1 ? "job" : "jobs"}
           </div>
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 ">
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {data.map((appliedJob) => (
               <JobCard
                 key={appliedJob.jobId}

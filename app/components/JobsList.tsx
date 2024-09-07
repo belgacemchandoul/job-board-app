@@ -9,8 +9,8 @@ interface JobsList {
   jobs: Job[];
 }
 const JobsList: React.FC<JobsList> = ({ jobs }) => {
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const [showDetails, setShowDetails] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const router = useRouter();
   const searchParam = useSearchParams();
   const jobId = searchParam.get("jobId");
@@ -58,13 +58,18 @@ const JobsList: React.FC<JobsList> = ({ jobs }) => {
           </div>
         ))}
       </section>
-      {showDetails && selectedJob && (
-        <div className="lg:col-span-2 col-span-3 overflow-y-auto scrollbar-thin scrollbar-thumb pr-2 flex justify-center items-center min-h-[70%]">
-          <div className="relative">
+      {selectedJob && (
+        <div
+          className={`${
+            showDetails ? "block" : "hidden"
+          } md:block lg:col-span-2 col-span-3 overflow-y-auto scrollbar-thin scrollbar-thumb p-2 md:py-0 md:pl-0 md:pr-2 
+            fixed md:static top-0 left-0 w-full h-full bg-white z-50 md:z-auto`}
+        >
+          <div className="relative h-full ">
             <JobDetails selectedJob={selectedJob} />
             <button
               onClick={() => setShowDetails(false)}
-              className="absolute top-2 right-2 text-sm text-[#003366] md:hidden block"
+              className="absolute top-1 right-0 text-sm text-[#003366] md:hidden block"
             >
               <CloseIcon />
             </button>
@@ -75,9 +80,3 @@ const JobsList: React.FC<JobsList> = ({ jobs }) => {
   );
 };
 export default JobsList;
-
-{
-  /* <div className="col-span-2 overflow-y-auto scrollbar-thin scrollbar-thumb pr-2">
-        <JobDetails selectedJob={selectedJob} />
-      </div> */
-}

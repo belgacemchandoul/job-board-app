@@ -31,7 +31,7 @@ const Logout = ({ user }: LogoutProps) => {
           alt="User Profile"
           width={40}
           height={40}
-          className="rounded-full cursor-pointer"
+          className="rounded-full cursor-pointer w-10"
         />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-white border border-gray-200 rounded-lg shadow-lg mt-2 w-48 absolute -right-5 select-none">

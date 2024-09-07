@@ -48,7 +48,7 @@ const JobDetailsComponent: React.FC<JobDetailsProps> = ({ job, onApply }) => {
   };
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 ">
       <section className="flex flex-col gap-3">
         <div className="font-medium text-lg lg:text-xl text-[#003366]">
           {job?.title}
