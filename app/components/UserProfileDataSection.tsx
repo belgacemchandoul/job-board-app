@@ -79,7 +79,7 @@ const UserProfileDataSection: React.FC<UserProfileDataSection> = ({
     },
   ];
   return (
-    <section className="flex flex-col gap-3 w-[28%]">
+    <section className="flex flex-col gap-3 w-full md:w-[70%] lg:w-[38%] px-4">
       {sections.map((section, index) => (
         <UserProfileCard
           key={index}

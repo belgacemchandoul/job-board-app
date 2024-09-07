@@ -11,18 +11,21 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({
   link,
 }) => {
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 p-4 border rounded-md">
       {title && (
         <div className="flex justify-between items-center text-gray-600">
-          <div className="text-xl font-medium">{title}</div>
+          <div className="text-lg md:text-xl font-medium">{title}</div>
           <Link href={link}>
-            <EditIcon sx={{ fontSize: "19px" }} />
+            <EditIcon sx={{ fontSize: "16px", md: "19px" }} />
           </Link>
         </div>
       )}
       <section className="flex flex-col gap-3">
         {data.map((item, index) => (
-          <div key={index} className="border rounded-md p-4 font-medium ">
+          <div
+            key={index}
+            className="border rounded-md p-2 md:p-4 text-sm md:text-base"
+          >
             {item.label ? (
               <div>
                 {item.label}: {item.value}{" "}

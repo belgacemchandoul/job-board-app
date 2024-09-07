@@ -1,8 +1,6 @@
 "use client";
 
-import { User } from "@/types/User";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useEffect } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
 import Input from "../Input";
@@ -62,62 +60,69 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
     name: "languages",
     control,
   });
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-8 transition duration-300 h-fit w-1/3"
+      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-4 sm:p-6 md:p-8 w-[85%] max-w-lg"
     >
       {fields.map((field, index) => (
         <div key={field.id} className="flex flex-col gap-3 w-full">
-          <div className="flex gap-2 items-center w-full flex-col">
-            <div className="flex gap-4 items-center w-full">
-              <label className="w-1/3 text-left">Language</label>
-              <Input
-                type="text"
-                register={register(`languages.${index}.name` as const)}
-              />
+          <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+            <label className="w-full sm:w-1/3 text-left">Language</label>
+            <Input
+              type="text"
+              register={register(`languages.${index}.name` as const)}
+              className="w-full sm:w-2/3"
+            />
+          </div>
+          {errors.languages?.[index]?.name && (
+            <span className="text-red-500">
+              {errors.languages[index]?.name?.message}
+            </span>
+          )}
+          <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+            <label className="w-full sm:w-1/3 text-left">Level</label>
+            <select
+              {...register(`languages.${index}.level` as const)}
+              className="outline-none p-2 border rounded-md shadow-sm w-full sm:w-2/3 cursor-pointer"
+            >
+              <option value="">Select Level</option>
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
+          {errors.languages?.[index]?.level && (
+            <span className="text-red-500">
+              {errors.languages[index]?.level?.message}
+            </span>
+          )}
+          {index > 0 && (
+            <div className="flex justify-end">
+              <DeleteButton onClick={() => remove(index)} />
             </div>
-            {errors.languages?.[index]?.name && (
-              <span className="text-red-500">
-                {errors.languages[index]?.name?.message}
-              </span>
-            )}
-          </div>
-          <div className="flex gap-2 items-center w-full flex-col">
-            <div className="flex gap-4 items-center w-full">
-              <label className="w-1/3 text-left">Level</label>
-              <select
-                {...register(`languages.${index}.level` as const)}
-                className="outline-none p-2 border rounded-md shadow-sm w-full cursor-pointer"
-              >
-                <option value="">Select Level</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-            {errors.languages?.[index]?.level && (
-              <span>{errors.languages[index]?.level?.message}</span>
-            )}
-          </div>
-          <div className="flex items-center justify-center">
-            {index > 0 && <DeleteButton onClick={() => remove(index)} />}
-          </div>
-          <hr />
+          )}
+          <hr className="my-4" />
         </div>
       ))}
-      <div className="flex gap-2">
-        {" "}
+      <div className="flex gap-2 w-full justify-between">
         <AddButton onClick={() => append({ name: "", level: "Beginner" })} />
-        <SubmitButton
-          isLoading={isSubmitting}
-          disabled={isSubmitting || !isDirty || isSubmitted}
-          isSubmitted={isSubmitted}
-        />
-        <button type="button" onClick={() => reset()}>
-          Reset
-        </button>
+        <div className="flex gap-2">
+          <SubmitButton
+            isLoading={isSubmitting}
+            disabled={isSubmitting || !isDirty || isSubmitted}
+            isSubmitted={isSubmitted}
+          />
+          <button
+            type="button"
+            onClick={() => reset()}
+            className="text-sm underline"
+          >
+            Reset
+          </button>
+        </div>
       </div>
     </form>
   );

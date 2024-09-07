@@ -15,9 +15,8 @@ const Profile = async () => {
   );
   const userData: User = await response.data;
   return (
-    <div className="min-h-screen flex flex-col items-center mt-5 gap-9">
-      <div className="font-medium text-3xl text-[#003366]">
-        {" "}
+    <div className="min-h-screen flex flex-col items-center mt-8 gap-9 px-4 md:px-8 lg:px-12">
+      <div className="font-medium text-3xl text-[#003366] text-center md:text-4xl">
         Welcome back, {userData.name}!
       </div>
       <UserProfileDataSection userData={userData} />

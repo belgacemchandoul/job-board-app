@@ -9,7 +9,7 @@ import Input from "../Input";
 import DeleteButton from "./FormDeleteButton";
 import AddButton from "./FormAddButton";
 import SubmitButton from "./FormSubmitButton";
-const dateRegex = /^(0[1-9]|1[0-2])\/\d{4}$/;
+
 export type userEducationFormType = Pick<User, "education">;
 
 const schema = yup.object().shape({
@@ -28,12 +28,9 @@ const schema = yup.object().shape({
             function (value) {
               const { startDate } = this.parent;
               if (!startDate || !value) return true;
-              const [startMonth, startYear] = startDate.split("/").map(Number);
-              const [endMonth, endYear] = value.split("/").map(Number);
-              return (
-                endYear > startYear ||
-                (endYear === startYear && endMonth >= startMonth)
-              );
+              const start = new Date(startDate);
+              const end = new Date(value);
+              return end >= start;
             }
           ),
         diploma: yup.string().required("Diploma is required"),
@@ -83,87 +80,90 @@ const UserEducationForm: React.FC<JobFormProps> = ({
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-8 transition duration-300 h-fit w-1/3"
+      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-4 sm:p-6 md:p-8 w-[85%] max-w-lg"
     >
       {fields.map((field, index) => (
         <div key={field.id} className="flex flex-col gap-3 w-full">
-          <div className="flex gap-2 items-center w-full flex-col">
-            <div className="flex gap-4 items-center w-full">
-              <label className="w-1/3 text-left">University</label>
-              <Input
-                type="text"
-                register={register(`education.${index}.name` as const)}
-              />
+          <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+            <label className="w-full sm:w-1/3 text-left">University</label>
+            <Input
+              type="text"
+              register={register(`education.${index}.name` as const)}
+              className="w-full sm:w-2/3"
+            />
+          </div>
+          {errors.education?.[index]?.name && (
+            <span className="text-red-500">
+              {errors.education[index]?.name?.message}
+            </span>
+          )}
+          <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+            <label className="w-full sm:w-1/3 text-left">Diploma</label>
+            <Input
+              type="text"
+              register={register(`education.${index}.diploma` as const)}
+              className="w-full sm:w-2/3"
+            />
+          </div>
+          {errors.education?.[index]?.diploma && (
+            <span className="text-red-500">
+              {errors.education[index]?.diploma?.message}
+            </span>
+          )}
+          <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+            <label className="w-full sm:w-1/3 text-left">Start Date</label>
+            <Input
+              type="date"
+              register={register(`education.${index}.startDate` as const)}
+              className="w-full sm:w-2/3"
+            />
+          </div>
+          {errors.education?.[index]?.startDate && (
+            <span className="text-red-500">
+              {errors.education[index]?.startDate?.message}
+            </span>
+          )}
+          <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+            <label className="w-full sm:w-1/3 text-left">End Date</label>
+            <Input
+              type="date"
+              register={register(`education.${index}.endDate` as const)}
+              className="w-full sm:w-2/3"
+            />
+          </div>
+          {errors.education?.[index]?.endDate && (
+            <span className="text-red-500">
+              {errors.education[index]?.endDate?.message}
+            </span>
+          )}
+          {index > 0 && (
+            <div className="flex justify-end">
+              <DeleteButton onClick={() => remove(index)} />
             </div>
-            {errors.education?.[index]?.name && (
-              <span className="text-red-500">
-                {errors.education[index]?.name?.message}
-              </span>
-            )}
-          </div>
-          <div className="flex gap-2 items-center w-full flex-col">
-            <div className="flex gap-4 items-center w-full">
-              <label className="w-1/3 text-left">Diploma</label>
-              <Input
-                type="text"
-                register={register(`education.${index}.diploma` as const)}
-              />
-            </div>
-            {errors.education?.[index]?.diploma && (
-              <span className="text-red-500">
-                {errors.education[index]?.diploma?.message}
-              </span>
-            )}
-          </div>
-          <div className="flex gap-2 items-center w-full flex-col">
-            <div className="flex gap-4 items-center w-full">
-              <label className="w-1/3 text-left">Start Date</label>
-              <Input
-                type="date"
-                register={register(`education.${index}.startDate` as const)}
-              />
-            </div>
-            {errors.education?.[index]?.startDate && (
-              <span className="text-red-500">
-                {errors.education[index]?.startDate?.message}
-              </span>
-            )}
-          </div>
-          <div className="flex gap-2 items-center w-full flex-col">
-            <div className="flex gap-4 items-center w-full">
-              <label className="w-1/3 text-left">End Date</label>
-              <Input
-                type="date"
-                register={register(`education.${index}.endDate` as const)}
-              />
-            </div>
-            {errors.education?.[index]?.endDate && (
-              <span className="text-red-500">
-                {errors.education[index]?.endDate?.message}
-              </span>
-            )}
-          </div>
-          <div className="flex items-center justify-center">
-            {index > 0 && <DeleteButton onClick={() => remove(index)} />}
-          </div>
-          <hr />
+          )}
+          <hr className="my-4" />
         </div>
       ))}
-      <div className="flex gap-2">
-        {" "}
+      <div className="flex  gap-2 w-full justify-between">
         <AddButton
           onClick={() =>
             append({ name: "", diploma: "", startDate: "", endDate: "" })
           }
         />
-        <SubmitButton
-          isLoading={isSubmitting}
-          disabled={isSubmitting || !isDirty || isSubmitted}
-          isSubmitted={isSubmitted}
-        />
-        <button type="button" onClick={() => reset()}>
-          Reset
-        </button>
+        <div className="flex gap-2">
+          <SubmitButton
+            isLoading={isSubmitting}
+            disabled={isSubmitting || !isDirty || isSubmitted}
+            isSubmitted={isSubmitted}
+          />
+          <button
+            type="button"
+            onClick={() => reset()}
+            className="text-sm underline"
+          >
+            Reset
+          </button>
+        </div>
       </div>
     </form>
   );
