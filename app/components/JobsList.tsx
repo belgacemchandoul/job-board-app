@@ -29,7 +29,6 @@ const JobsList: React.FC<JobsList> = ({ jobs }) => {
         router.replace(`/jobs?${params.toString()}`, { scroll: false });
       }
     }
-    console.log(typeof initialJob?.id);
   }, [jobs, jobId, router]);
 
   const handleSelectedJob = (job: Job) => {

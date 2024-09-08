@@ -14,7 +14,6 @@ const Languages = async () => {
   const userLanguages = await fetchData<userLanguagesFormType>(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
   );
-  console.log(userLanguages);
   return <LanguagesComponent userLanguages={userLanguages} />;
 };
 

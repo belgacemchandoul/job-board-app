@@ -1,4 +1,5 @@
 "use client";
+
 import {
   useForm,
   Controller,
@@ -10,7 +11,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import { Job } from "@/types/Job";
-import { useEffect } from "react";
+import Input from "../Input";
+import DeleteButton from "./FormDeleteButton";
+import AddButton from "./FormAddButton";
+import SubmitButton from "./FormSubmitButton";
 
 const schema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -38,12 +42,13 @@ interface JobFormProps {
   onSubmit: SubmitHandler<Job>;
   defaultValues?: Job;
 }
+
 const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
   const {
     control,
     handleSubmit,
     register,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { isDirty, isSubmitting, isSubmitted, errors, isValid },
     reset,
   } = useForm<Job>({
     resolver: yupResolver(schema),
@@ -55,6 +60,7 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
       skills: [{ skill: "" }],
     },
   });
+
   const {
     fields: missionFields,
     append: appendMission,
@@ -72,104 +78,126 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
     name: "skills",
     control,
   });
-  const onError = (errors: FieldErrors<Job>) => {
-    console.log("Form errors:", errors);
-  };
-  useEffect(() => {
-    if (isSubmitting) {
-      console.log("Form is submitting...");
-    }
-  }, [isSubmitting]);
+
   return (
-    <div className="">
-      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
-        <div>
-          <label>Title</label>
-          <Controller
-            name="title"
-            control={control}
-            render={({ field }) => <input {...field} />}
-          />
-          {errors.title && <span>{errors.title.message}</span>}
-        </div>
-
-        <div>
-          <label>Description</label>
-          <Controller
-            name="description"
-            control={control}
-            render={({ field }) => <textarea {...field} />}
-          />
-          {errors.description && <span>{errors.description.message}</span>}
-        </div>
-
-        <div>
-          <label>Status</label>
-          <Controller
-            name="status"
-            control={control}
-            render={({ field }) => (
-              <input
-                type="checkbox"
-                checked={field.value}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {errors.status && <span>{errors.status.message}</span>}
-        </div>
-
-        <div>
-          <label>Missions</label>
-          {missionFields.map((field, index) => {
-            return (
-              <div key={field.id}>
-                <input
-                  type="text"
-                  {...register(`missions.${index}.mission` as const)}
-                />
-                {index > 0 && (
-                  <button onClick={() => removeMission(index)}>delete</button>
-                )}
-              </div>
-            );
-          })}
-          <div onClick={() => appendMission({ mission: "" })}>Add</div>
-          {errors.missions &&
-            errors.missions[0] &&
-            errors.missions[0].mission && (
-              <span>{errors.missions[0].mission.message}</span>
-            )}
-        </div>
-
-        <div>
-          <label>Skills</label>
-          {skillFields.map((field, index) => {
-            return (
-              <div key={field.id}>
-                <input
-                  type="text"
-                  {...register(`skills.${index}.skill` as const)}
-                />
-                {index > 0 && (
-                  <button onClick={() => removeSkill(index)}>delete</button>
-                )}
-              </div>
-            );
-          })}
-          <button onClick={() => appendSkill({ skill: "" })}>Add</button>
-          {errors.skills && errors.skills[0] && errors.skills[0].skill && (
-            <span>{errors.skills[0].skill.message}</span>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-4 sm:p-6 md:p-8 w-full max-w-lg"
+    >
+      <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+        <label className="w-full sm:w-1/3 text-left">Title</label>
+        <Controller
+          name="title"
+          control={control}
+          render={({ field }) => (
+            <Input
+              {...field}
+              className="w-full sm:w-2/3 border-gray-300 rounded-md"
+            />
           )}
-        </div>
-        <button type="submit" disabled={!isDirty || !isValid || isSubmitting}>
-          Submit
-        </button>
-        <button type="button" onClick={() => reset()}>
+        />
+        {errors.title && (
+          <span className="text-red-500 text-sm">{errors.title.message}</span>
+        )}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+        <label className="w-full sm:w-1/3 text-left">Description</label>
+        <Controller
+          name="description"
+          control={control}
+          render={({ field }) => (
+            <textarea
+              {...field}
+              className="w-full sm:w-2/3 border-gray-300 rounded-md p-2"
+            />
+          )}
+        />
+        {errors.description && (
+          <span className="text-red-500 text-sm">
+            {errors.description.message}
+          </span>
+        )}
+      </div>
+
+      <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
+        <label className="w-full sm:w-1/3 text-left">Status</label>
+        <Controller
+          name="status"
+          control={control}
+          render={({ field }) => (
+            <input
+              type="checkbox"
+              checked={field.value}
+              onChange={field.onChange}
+              className="w-5 h-5"
+            />
+          )}
+        />
+        {errors.status && (
+          <span className="text-red-500 text-sm">{errors.status.message}</span>
+        )}
+      </div>
+
+      <div className="flex gap-2 items-center w-full">
+        <label className="w-full sm:w-1/3 text-left">Missions</label>
+        {missionFields.map((field, index) => (
+          <div key={field.id} className="w-full flex gap-2 items-center">
+            <Input
+              type="text"
+              register={register(`missions.${index}.mission` as const)}
+              className="w-full border-gray-300 rounded-md"
+            />
+            {index > 0 && <DeleteButton onClick={() => removeMission(index)} />}
+          </div>
+        ))}
+        <AddButton onClick={() => appendMission({ mission: "" })} />
+        {errors.missions && errors.missions[0]?.mission && (
+          <span className="text-red-500 text-sm">
+            {errors.missions[0].mission?.message}
+          </span>
+        )}
+      </div>
+
+      <div className="flex gap-2 items-center w-full">
+        <label className="w-full sm:w-1/3 text-left">Skills</label>
+        {skillFields.map((field, index) => (
+          <div
+            key={field.id}
+            className="w-full flex flex-col gap-2 items-center"
+          >
+            <Input
+              type="text"
+              register={register(`skills.${index}.skill` as const)}
+              className="w-full border-gray-300 rounded-md"
+            />
+            {index > 0 && <DeleteButton onClick={() => removeSkill(index)} />}
+          </div>
+        ))}
+        <AddButton onClick={() => appendSkill({ skill: "" })} />
+        {errors.skills && errors.skills[0]?.skill && (
+          <span className="text-red-500 text-sm">
+            {errors.skills[0].skill?.message}
+          </span>
+        )}
+      </div>
+
+      <div className="flex gap-2 justify-end w-full">
+        <SubmitButton
+          isLoading={isSubmitting}
+          disabled={isSubmitting || !isDirty || isSubmitted || !isValid}
+          isSubmitted={isSubmitted}
+        />
+        <button
+          type="button"
+          onClick={() => reset()}
+          className="text-sm underline"
+        >
           Reset
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

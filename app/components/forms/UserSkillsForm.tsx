@@ -52,11 +52,6 @@ const UserSkillsForm: React.FC<JobFormProps> = ({
     name: "skills",
     control,
   });
-  useEffect(() => {
-    if (isSubmitting) {
-      console.log("Form is submitting...");
-    }
-  }, [isSubmitting]);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

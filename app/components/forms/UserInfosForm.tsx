@@ -30,9 +30,6 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
     resolver: yupResolver(schema),
     defaultValues: defaultValues || { email: "", name: "", birthdate: "" },
   });
-  useEffect(() => {
-    console.log("isSubmitting:", isSubmitting);
-  }, [isSubmitting]);
 
   return (
     <form

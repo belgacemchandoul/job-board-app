@@ -12,7 +12,7 @@ export const useFormSubmit = <T,>() => {
         router.replace('/profile');
         router.refresh()
       } catch (error) {
-        console.log("Error updating data", error);
+        return error
       }
     },
     [router]

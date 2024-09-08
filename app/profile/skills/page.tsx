@@ -14,7 +14,6 @@ const Skills = async () => {
   const userSkills = await fetchData<userSkillsFormType>(
     `${process.env.NEXT_PUBLIC_API_URL}/profile/api`
   );
-  console.log(userSkills);
   return <SkillsComponent userSkills={userSkills} />;
 };
 
