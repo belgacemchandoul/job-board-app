@@ -39,7 +39,12 @@ const onSubmit: SubmitHandler<Job> = async (data) => {
 };
 
 const Admin = () => {
-  return <JobForm onSubmit={onSubmit} />;
+  // return <JobForm onSubmit={onSubmit} />;
+  return (
+    <div className="font-bold text-6xl flex items-center justify-center mt-20">
+      Disabled due to security matters
+    </div>
+  );
 };
 
 export default Admin;
