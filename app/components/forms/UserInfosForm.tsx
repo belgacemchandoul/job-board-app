@@ -24,7 +24,7 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
   const {
     control,
     handleSubmit,
-    formState: { isDirty, isSubmitting, isSubmitted, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors, isValid },
     reset,
   } = useForm<userInfoFormType>({
     resolver: yupResolver(schema),
@@ -76,7 +76,7 @@ const UserInfosForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
       <section className="flex gap-4 justify-center w-full">
         <SubmitButton
           isLoading={isSubmitting}
-          disabled={isSubmitting || !isDirty || isSubmitted}
+          disabled={isSubmitting || !isDirty || isSubmitted || !isValid}
           isSubmitted={isSubmitted}
         />
         <button

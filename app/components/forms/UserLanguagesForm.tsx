@@ -43,7 +43,7 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
     control,
     handleSubmit,
     register,
-    formState: { isDirty, isSubmitting, isSubmitted, errors },
+    formState: { isDirty, isSubmitting, isSubmitted, errors, isValid },
     reset,
   } = useForm<userLanguagesFormType>({
     resolver: yupResolver(schema),
@@ -112,7 +112,7 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
         <div className="flex gap-2">
           <SubmitButton
             isLoading={isSubmitting}
-            disabled={isSubmitting || !isDirty || isSubmitted}
+            disabled={isSubmitting || !isDirty || isSubmitted || !isValid}
             isSubmitted={isSubmitted}
           />
           <button
