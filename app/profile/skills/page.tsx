@@ -1,11 +1,14 @@
 import { userSkillsFormType } from "../../components/forms/UserSkillsForm";
-import SkillsComponent from "@/app/components/Skills";
 import { fetchData } from "@/app/lib/apiUtils";
-import { UserSkillsProps } from "@/types/interfaces";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/lib/nextAuth";
 import { redirect } from "next/navigation";
-
+import dynamic from "next/dynamic";
+import Loading from "@/app/loading";
+const SkillsComponent = dynamic(() => import("@/app/components/Skills"), {
+  ssr: true,
+  loading: () => <Loading />,
+});
 const Skills = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {

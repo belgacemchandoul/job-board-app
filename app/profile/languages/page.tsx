@@ -1,11 +1,14 @@
 import { userLanguagesFormType } from "@/app/components/forms/UserLanguagesForm";
 import { fetchData } from "@/app/lib/apiUtils";
-import LanguagesComponent from "@/app/components/Languages";
-import { UserLanguagesProps } from "@/types/interfaces";
 import { getServerSession, Session } from "next-auth";
 import { authOptions } from "@/app/lib/nextAuth";
 import { redirect } from "next/navigation";
-
+import Loading from "@/app/loading";
+import dynamic from "next/dynamic";
+const LanguagesComponent = dynamic(() => import("@/app/components/Languages"), {
+  ssr: true,
+  loading: () => <Loading />,
+});
 const Languages = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {

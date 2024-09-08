@@ -56,15 +56,11 @@ const UserEducationForm: React.FC<JobFormProps> = ({
     reset,
   } = useForm<userEducationFormType>({
     resolver: yupResolver(schema),
-    defaultValues: defaultValues || {
-      education: [
-        {
-          name: "",
-          endDate: "",
-          startDate: "",
-          diploma: "",
-        },
-      ],
+    defaultValues: {
+      education:
+        defaultValues?.education && defaultValues.education.length > 0
+          ? defaultValues.education
+          : [{ name: "", diploma: "", startDate: "", endDate: "" }],
     },
   });
   const { fields, append, remove } = useFieldArray({

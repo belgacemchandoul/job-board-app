@@ -40,12 +40,11 @@ const UserSkillsForm: React.FC<JobFormProps> = ({
     reset,
   } = useForm<userSkillsFormType>({
     resolver: yupResolver(schema),
-    defaultValues: defaultValues || {
-      skills: [
-        {
-          name: "",
-        },
-      ],
+    defaultValues: {
+      skills:
+        defaultValues?.skills && defaultValues.skills.length > 0
+          ? defaultValues.skills
+          : [{ name: "" }],
     },
   });
   const { fields, append, remove } = useFieldArray({

@@ -47,13 +47,11 @@ const UserLanguagesForm: React.FC<JobFormProps> = ({
     reset,
   } = useForm<userLanguagesFormType>({
     resolver: yupResolver(schema),
-    defaultValues: defaultValues || {
-      languages: [
-        {
-          name: "",
-          level: "Beginner",
-        },
-      ],
+    defaultValues: {
+      languages:
+        defaultValues?.languages && defaultValues.languages.length > 0
+          ? defaultValues.languages
+          : [{ name: "", level: "Beginner" }],
     },
   });
   const { fields, append, remove } = useFieldArray({

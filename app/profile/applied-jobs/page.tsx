@@ -6,9 +6,13 @@ import Button from "@/app/components/Button";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Link from "next/link";
 import { AppliedJob } from "@/types/AppliedJob";
-import JobCard from "@/app/components/JobCard";
 import truncateDescription from "@/app/utils/truncateDescription";
-
+import Loading from "@/app/loading";
+import dynamic from "next/dynamic";
+const JobCard = dynamic(() => import("@/app/components/JobCard"), {
+  ssr: true,
+  loading: () => <Loading />,
+});
 const AppliedJobs = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
