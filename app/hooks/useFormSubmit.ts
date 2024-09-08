@@ -8,7 +8,6 @@ export const useFormSubmit = <T,>() => {
     async (url: string, data: T) => {
       try {
         await axios.patch(url, data);
-
         router.replace('/profile');
         router.refresh()
       } catch (error) {
