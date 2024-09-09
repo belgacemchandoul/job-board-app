@@ -1,10 +1,14 @@
-import UserProfileDataSection from "../components/UserProfileDataSection";
 import { User } from "@/types/User";
 import axiosInstance from "../lib/axiosInterceptor";
 import { getServerSession, Session } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "../lib/nextAuth";
-
+import dynamic from "next/dynamic";
+import Loading from "../loading";
+const UserProfileDataSection = dynamic(
+  import("../components/UserProfileDataSection"),
+  { ssr: true, loading: () => <Loading /> }
+);
 const Profile = async () => {
   const session: Session | null = await getServerSession(authOptions);
   if (!session) {
