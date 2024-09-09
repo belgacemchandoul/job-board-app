@@ -4,7 +4,7 @@ const onJobApply = async ({ params }: { params: { jobId: string } }) => {
   try {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/jobs/${params.jobId}/api/?jobId=${params.jobId}`,
-      params.jobId
+      { jobId: params.jobId }
     );
 
     if (res.status !== 200) {
