@@ -6,7 +6,7 @@ import { authOptions } from "../lib/nextAuth";
 import dynamic from "next/dynamic";
 import Loading from "../loading";
 const UserProfileDataSection = dynamic(
-  import("@/app/components/UserProfileDataSection"),
+  () => import("@/app/components/UserProfileDataSection"),
   { ssr: true, loading: () => <Loading /> }
 );
 const Profile = async () => {
