@@ -23,7 +23,7 @@ const AppliedJobs = async () => {
   );
   const data: AppliedJob[] = response.data;
   return (
-    <div className="flex flex-col items-center mt-7">
+    <div className="flex flex-col items-center mt-7 mb-6">
       {data.length === 0 ? (
         <div className="flex flex-col items-center gap-10">
           <div className="font-medium text-3xl text-[#003366] mt-4">
