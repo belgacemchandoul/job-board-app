@@ -4,7 +4,7 @@ import axios from "axios";
 
 const JobDetailsPage = async ({ params }: { params: { jobId: string } }) => {
   const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/jobs/${params.jobId}/api/?jobId=${params.jobId}`
+    `${process.env.NEXT_PUBLIC_API_URL}/jobs/${params.jobId}/api`
   );
   const jobDetails: Job = response.data;
   return (

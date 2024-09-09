@@ -4,13 +4,13 @@ import { getServerSession } from "next-auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { authOptions } from "@/app/lib/nextAuth";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, { params }: { params: { jobId: string } }) {
   if (req.method !== "GET") {
     return new Response(JSON.stringify({ message: "Method Not Allowed" }), { status: 405 });
   }
 
   try {
-    const id = req.nextUrl.searchParams.get("jobId");
+    const id = params.jobId;
     if (!id) {
       return new Response(JSON.stringify({ message: "Missing Job ID" }), { status: 400 });
     }
@@ -28,13 +28,13 @@ export async function GET(req: NextRequest) {
 
 
 
-export async function PATCH(req: NextRequest) {
+export async function PATCH(req: NextRequest, { params }: { params: { jobId: string } }) {
 
   if (req.method !== "PATCH") {
     return new Response(JSON.stringify({ message: "Method Noth Allowed" }), { status: 405 })
   }
   try {
-    const id = req.nextUrl.searchParams.get("jobId")
+    const id = params.jobId;
     const updateData = await req.json()
 
     if (!id) {
@@ -50,12 +50,12 @@ export async function PATCH(req: NextRequest) {
   }
 }
 
-export async function DELETE(req: NextRequest) {
+export async function DELETE(req: NextRequest, { params }: { params: { jobId: string } }) {
   if (req.method !== "DELETE") {
     return new Response(JSON.stringify({ message: "Method Not Allowed" }), { status: 405 })
   }
   try {
-    const id = req.nextUrl.searchParams.get("jobId")
+    const id = params.jobId;
     if (!id) {
       return new Response(JSON.stringify({ message: "Missing Job ID" }), { status: 400 })
     }
@@ -67,7 +67,7 @@ export async function DELETE(req: NextRequest) {
     return new Response(JSON.stringify({ message: "Not able to delete this job" }), { status: 500 })
   }
 }
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, { params }: { params: { jobId: string } }) {
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ message: "Method Not Allowed" }), { status: 405 })
   }
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
   }
   try {
 
-    const jobId = req.nextUrl.searchParams.get("jobId");
+    const jobId = params.jobId;
 
     if (!jobId) {
       return new Response(JSON.stringify({ message: "Job ID is required" }), { status: 400 });
