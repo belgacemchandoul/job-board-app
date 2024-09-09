@@ -3,7 +3,7 @@ import axios, { AxiosError } from "axios";
 const onJobApply = async ({ params }: { params: { jobId: string } }) => {
   try {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/jobs/${params.jobId}/api/?jobId=${params.jobId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/jobs/${params.jobId}/api`,
       { jobId: params.jobId }
     );
 
