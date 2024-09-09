@@ -5,13 +5,13 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import onJobApply from "../utils/jobApply";
 
 interface JobDetailsProps {
   job: Job;
-  onApply?: () => Promise<any>;
 }
 
-const JobDetailsComponent: React.FC<JobDetailsProps> = ({ job, onApply }) => {
+const JobDetailsComponent: React.FC<JobDetailsProps> = ({ job }) => {
   const toastJobId: string = "hello";
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -21,27 +21,27 @@ const JobDetailsComponent: React.FC<JobDetailsProps> = ({ job, onApply }) => {
     if (!session) {
       toast.error("You need to sign in first.", { id: toastJobId });
       signIn();
-    } else if (onApply) {
-      toast.loading("Applying for job...", { id: toastJobId });
-      try {
-        await onApply();
-        toast.success("Application successful!", { id: toastJobId });
-        router.replace("/profile/applied-jobs");
-        router.refresh();
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response?.status === 401) {
-            toast.error("You have already applied for this job.", {
+      return;
+    }
+    toast.loading("Applying for job...", { id: toastJobId });
+    try {
+      await onJobApply({ params: { jobId: job?.id || "" } });
+      toast.success("Application successful!", { id: toastJobId });
+      router.replace("/profile/applied-jobs");
+      router.refresh();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 401) {
+          toast.error("You have already applied for this job.", {
+            id: toastJobId,
+          });
+        } else {
+          toast.error(
+            error.message || "Application failed. Please try again.",
+            {
               id: toastJobId,
-            });
-          } else {
-            toast.error(
-              error.message || "Application failed. Please try again.",
-              {
-                id: toastJobId,
-              }
-            );
-          }
+            }
+          );
         }
       }
     }
