@@ -74,14 +74,13 @@
 
 </li>
 <li>Create a .env file and add your environment variables:
-    ```
   
     DATABASE_URL =your_prisma_database_url
     NEXT_PUBLIC_API_URL=http://localhost:3000
     GOOGLE_CLIENT_ID = your_google_client_ID
     GOOGLE_CLIENT_SECRET = your_google_client_secret
     AUTH_SECRET = your_auth_secret
-    ```
+
 </li>
 <li>Start the development server:
 
@@ -99,8 +98,9 @@
 ## Future Features
 
 <ul>
-  <li><strong>Support for more APIs: </strong> Add other models or enhance the current emotion analysis for better accuracy. </li>
-  <li><strong>Real-time updates: </strong> Analyze comments and posts from social media in real-time. </li>
-  <li><strong>More Visualizations: </strong> Additional chart types for a more detailed breakdown of data. </li>
-  <li><strong>Fix Translation API bug: </strong> Reimplement translation in this project since it was removed due to API bugs. </li>
+  <li><strong>Job Alerts: </strong> Users can subscribe to receive job alerts based on their preferences. </li>
+  <li><strong>Advanced Portfolio Features: </strong> More customization options for user portfolios, including skills endorsements and project links. </li>
+  <li><strong>Real-Time Job Postings: </strong> Integrate real-time job posting updates for a more dynamic experience. </li>
+  <li><strong>Job Filters and Search: </strong> Implement advanced filtering options and a search functionality for job listings. </li>
+  <li><strong>Enterprise Login: </strong> Enable companies to log in and post jobs directly to the platform. </li>
 </ul>
