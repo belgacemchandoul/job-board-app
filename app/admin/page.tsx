@@ -15,7 +15,7 @@ const onSubmit: SubmitHandler<Job> = async (data) => {
       data
     );
 
-    if (response.status === 201) {
+    if (response.status === 200) {
       toast.success("Job submitted successfully!", { id: toastJobId });
     } else {
       toast.error(`Unexpected response: ${response.status}`, {
@@ -39,12 +39,17 @@ const onSubmit: SubmitHandler<Job> = async (data) => {
 };
 
 const Admin = () => {
-  // return <JobForm onSubmit={onSubmit} />;
   return (
-    <div className="font-bold text-6xl flex items-center justify-center mt-20">
-      Disabled due to security matters
+    <div className="w-full flex flex-col gap-4 items-center justify-center min-h-screen">
+      <div className="font-bold text-3xl ">Add a job</div>
+      <JobForm onSubmit={onSubmit} />
     </div>
   );
+  // return (
+  //   <div className="font-bold text-6xl flex items-center justify-center mt-20">
+  //     Disabled due to security matters
+  //   </div>
+  // );
 };
 
 export default Admin;

@@ -27,7 +27,7 @@ const AppliedJobs = async () => {
       {data.length === 0 ? (
         <div className="flex flex-col items-center gap-10">
           <div className="font-medium text-3xl text-[#003366] mt-4">
-            No applied jobs!
+            No applied jobs yet!
           </div>
           <Link href="/jobs">
             <Button text="Explore Jobs">

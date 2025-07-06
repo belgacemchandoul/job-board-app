@@ -27,8 +27,6 @@ const JobDetailsComponent: React.FC<JobDetailsProps> = ({ job }) => {
     try {
       await onJobApply({ params: { jobId: job?.id || "" } });
       toast.success("Application successful!", { id: toastJobId });
-      router.replace("/profile/applied-jobs");
-      router.refresh();
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.status === 401) {

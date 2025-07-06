@@ -83,7 +83,7 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
     <form
       onSubmit={handleSubmit(onSubmit)}
       noValidate
-      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-4 sm:p-6 md:p-8 w-full max-w-lg"
+      className="flex flex-col items-center gap-5 bg-white shadow-md rounded-md p-4 sm:p-6 md:p-8 w-full h-fit max-w-lg"
     >
       <div className="flex flex-col sm:flex-row gap-2 items-center w-full">
         <label className="w-full sm:w-1/3 text-left">Title</label>
@@ -140,47 +140,50 @@ const JobForm: React.FC<JobFormProps> = ({ onSubmit, defaultValues }) => {
         )}
       </div>
 
-      <div className="flex gap-2 items-center w-full">
-        <label className="w-full sm:w-1/3 text-left">Missions</label>
-        {missionFields.map((field, index) => (
-          <div key={field.id} className="w-full flex gap-2 items-center">
-            <Input
-              type="text"
-              register={register(`missions.${index}.mission` as const)}
-              className="w-full border-gray-300 rounded-md"
-            />
-            {index > 0 && <DeleteButton onClick={() => removeMission(index)} />}
-          </div>
-        ))}
-        <AddButton onClick={() => appendMission({ mission: "" })} />
-        {errors.missions && errors.missions[0]?.mission && (
-          <span className="text-red-500 text-sm">
-            {errors.missions[0].mission?.message}
-          </span>
-        )}
+      <div className="flex gap-2 w-full">
+        <label className="w-full sm:w-1/3 text-left ">Missions</label>
+        <div className="flex flex-col gap-2 w-full">
+          {missionFields.map((field, index) => (
+            <div key={field.id} className="w-full flex gap-2 items-center">
+              <Input
+                type="text"
+                register={register(`missions.${index}.mission` as const)}
+                className="w-full border-gray-300 rounded-md"
+              />
+              {index > 0 && (
+                <DeleteButton onClick={() => removeMission(index)} />
+              )}
+            </div>
+          ))}
+          <AddButton onClick={() => appendMission({ mission: "" })} />
+          {errors.missions && errors.missions[0]?.mission && (
+            <span className="text-red-500 text-sm">
+              {errors.missions[0].mission?.message}
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="flex gap-2 items-center w-full">
+      <div className="flex gap-2 w-full">
         <label className="w-full sm:w-1/3 text-left">Skills</label>
-        {skillFields.map((field, index) => (
-          <div
-            key={field.id}
-            className="w-full flex flex-col gap-2 items-center"
-          >
-            <Input
-              type="text"
-              register={register(`skills.${index}.skill` as const)}
-              className="w-full border-gray-300 rounded-md"
-            />
-            {index > 0 && <DeleteButton onClick={() => removeSkill(index)} />}
-          </div>
-        ))}
-        <AddButton onClick={() => appendSkill({ skill: "" })} />
-        {errors.skills && errors.skills[0]?.skill && (
-          <span className="text-red-500 text-sm">
-            {errors.skills[0].skill?.message}
-          </span>
-        )}
+        <div className="flex flex-col gap-2 w-full">
+          {skillFields.map((field, index) => (
+            <div key={field.id} className="w-full flex gap-2 items-center">
+              <Input
+                type="text"
+                register={register(`skills.${index}.skill` as const)}
+                className="w-full border-gray-300 rounded-md"
+              />
+              {index > 0 && <DeleteButton onClick={() => removeSkill(index)} />}
+            </div>
+          ))}
+          <AddButton onClick={() => appendSkill({ skill: "" })} />
+          {errors.skills && errors.skills[0]?.skill && (
+            <span className="text-red-500 text-sm">
+              {errors.skills[0].skill?.message}
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="flex gap-2 justify-end w-full">
